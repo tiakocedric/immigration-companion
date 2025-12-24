@@ -1,12 +1,30 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState } from 'react';
+import Navigation from '@/components/Navigation';
+import Hero from '@/components/Hero';
+import LegalCompliance from '@/components/LegalCompliance';
+import About from '@/components/About';
+import Services from '@/components/Services';
+import Testimonials from '@/components/Testimonials';
+import FAQ from '@/components/FAQ';
+import AppointmentForm from '@/components/AppointmentForm';
+import ContactForm from '@/components/ContactForm';
+import Footer from '@/components/Footer';
 
 const Index = () => {
+  const [language, setLanguage] = useState<'fr' | 'en'>('fr');
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
+    <div className="min-h-screen bg-background text-foreground">
+      <Navigation language={language} setLanguage={setLanguage} />
+      <Hero language={language} />
+      <LegalCompliance language={language} />
+      <About language={language} />
+      <Services language={language} />
+      <Testimonials language={language} />
+      <FAQ language={language} />
+      <AppointmentForm language={language} />
+      <ContactForm language={language} />
+      <Footer language={language} />
     </div>
   );
 };
