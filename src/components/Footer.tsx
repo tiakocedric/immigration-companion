@@ -46,15 +46,15 @@ export default function Footer({ language }: FooterProps) {
   };
 
   return (
-    <footer className="bg-footer-gradient text-primary-foreground">
+    <footer className="bg-footer text-footer-text">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid md:grid-cols-3 gap-10 mb-12">
           {/* Brand */}
           <div className="space-y-4">
-            <h3 className="text-2xl font-heading font-semibold tracking-widest">
+            <h3 className="text-2xl font-heading font-semibold tracking-widest text-footer-text">
               MIMBIMMIGRATION
             </h3>
-            <p className="text-primary-foreground/80 text-sm">
+            <p className="text-footer-muted text-sm">
               CONSULTANCY INC.
             </p>
             <div className="pt-4">
@@ -62,7 +62,7 @@ export default function Footer({ language }: FooterProps) {
                 href="https://college-ic.ca/protecting-the-public/find-an-immigration-consultant"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-sm text-primary-foreground/80 hover:text-primary-foreground transition-colors"
+                className="inline-flex items-center gap-2 text-sm text-footer-muted hover:text-footer-text transition-colors"
               >
                 {content[language].verifyText}
                 <ExternalLink size={14} />
@@ -72,19 +72,19 @@ export default function Footer({ language }: FooterProps) {
 
           {/* Contact */}
           <div className="space-y-4">
-            <h4 className="font-heading font-semibold text-lg">
+            <h4 className="font-heading font-semibold text-lg text-footer-text">
               {content[language].contact}
             </h4>
             <div className="space-y-3">
-              <a href="tel:+15144627623" className="flex items-center gap-3 text-primary-foreground/80 hover:text-primary-foreground transition-colors">
+              <a href="tel:+15144627623" className="flex items-center gap-3 text-footer-muted hover:text-footer-text transition-colors">
                 <Phone size={16} />
                 (514) 462-7623
               </a>
-              <a href="mailto:fmimb@yahoo.fr" className="flex items-center gap-3 text-primary-foreground/80 hover:text-primary-foreground transition-colors">
+              <a href="mailto:fmimb@yahoo.fr" className="flex items-center gap-3 text-footer-muted hover:text-footer-text transition-colors">
                 <Mail size={16} />
                 fmimb@yahoo.fr
               </a>
-              <div className="flex items-center gap-3 text-primary-foreground/80">
+              <div className="flex items-center gap-3 text-footer-muted">
                 <MapPin size={16} />
                 Montréal, Québec, Canada
               </div>
@@ -93,7 +93,7 @@ export default function Footer({ language }: FooterProps) {
 
           {/* Quick Links */}
           <div className="space-y-4">
-            <h4 className="font-heading font-semibold text-lg">
+            <h4 className="font-heading font-semibold text-lg text-footer-text">
               {content[language].quickLinks}
             </h4>
             <div className="grid grid-cols-2 gap-2">
@@ -101,7 +101,7 @@ export default function Footer({ language }: FooterProps) {
                 <button
                   key={link.href}
                   onClick={() => scrollToSection(link.href)}
-                  className="text-left text-primary-foreground/80 hover:text-primary-foreground transition-colors"
+                  className="text-left text-footer-muted hover:text-footer-text transition-colors"
                 >
                   {link.label}
                 </button>
@@ -110,8 +110,8 @@ export default function Footer({ language }: FooterProps) {
           </div>
         </div>
 
-        <div className="pt-8 border-t border-primary-foreground/20">
-          <div className="flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-primary-foreground/60">
+        <div className="pt-8 border-t border-footer-muted/30">
+          <div className="flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-footer-muted">
             <p>
               © {new Date().getFullYear()} MIMBIMMIGRATION CONSULTANCY INC. {content[language].rights}
             </p>
@@ -121,7 +121,7 @@ export default function Footer({ language }: FooterProps) {
                 href="https://lovable.dev"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-primary-foreground hover:underline"
+                className="text-footer-text hover:underline"
               >
                 Lovable
               </a>

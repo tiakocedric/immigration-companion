@@ -57,6 +57,11 @@ export default {
         "txt-primary": "hsl(var(--text-primary))",
         "txt-secondary": "hsl(var(--text-secondary))",
         hover: "hsl(var(--hover))",
+        footer: {
+          DEFAULT: "hsl(var(--footer-bg))",
+          text: "hsl(var(--footer-text))",
+          muted: "hsl(var(--footer-text-muted))",
+        },
       },
       fontFamily: {
         heading: ['Montserrat', 'sans-serif'],

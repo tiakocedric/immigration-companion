@@ -49,10 +49,15 @@
     
     /* Text colors */
     --text-primary: 0 0% 100%;
-    --text-secondary: 210 20% 90%;
+    --text-secondary: 210 20% 80%;
     
     /* UI States */
     --hover: 210 30% 22%;
+    
+    /* Footer - always dark */
+    --footer-bg: 210 60% 10%;
+    --footer-text: 0 0% 100%;
+    --footer-text-muted: 210 20% 75%;
   }
 
   .light {
@@ -74,19 +79,24 @@
     --secondary: 210 30% 93%;
     --secondary-foreground: 210 60% 12%;
     
-    --muted: 210 20% 90%;
+    --muted: 210 20% 92%;
     --muted-foreground: 210 20% 40%;
     
     --accent: 355 77% 47%;
     --accent-foreground: 0 0% 100%;
     
-    --border: 210 20% 90%;
-    --input: 210 20% 90%;
+    --border: 210 20% 88%;
+    --input: 210 20% 88%;
     
     --text-primary: 210 60% 12%;
-    --text-secondary: 210 20% 40%;
+    --text-secondary: 210 20% 35%;
     
     --hover: 210 20% 95%;
+    
+    /* Footer stays dark in light mode too */
+    --footer-bg: 210 60% 10%;
+    --footer-text: 0 0% 100%;
+    --footer-text-muted: 210 20% 75%;
   }
 
   * {
