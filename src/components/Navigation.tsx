@@ -1,5 +1,6 @@
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Sun, Moon } from 'lucide-react';
 import { useState } from 'react';
+import { useTheme } from '@/hooks/useTheme';
 
 interface NavigationProps {
   language: 'fr' | 'en';
@@ -8,6 +9,7 @@ interface NavigationProps {
 
 export default function Navigation({ language, setLanguage }: NavigationProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { theme, toggleTheme } = useTheme();
 
   const navItems = {
     fr: [
@@ -64,8 +66,18 @@ export default function Navigation({ language, setLanguage }: NavigationProps) {
             ))}
           </div>
 
-          {/* Language Toggle */}
-          <div className="flex items-center gap-4">
+          {/* Controls */}
+          <div className="flex items-center gap-2">
+            {/* Theme Toggle */}
+            <button
+              onClick={toggleTheme}
+              className="p-2 rounded-full bg-muted hover:bg-hover text-txt-secondary hover:text-txt-primary transition-colors"
+              aria-label={theme === 'dark' ? 'Activer le mode clair' : 'Activer le mode sombre'}
+            >
+              {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
+            </button>
+
+            {/* Language Toggle */}
             <button
               onClick={() => setLanguage(language === 'fr' ? 'en' : 'fr')}
               className="px-4 py-2 rounded-full bg-brand-red text-primary-foreground font-semibold text-sm hover:bg-brand-red/90 transition-colors"
@@ -85,7 +97,7 @@ export default function Navigation({ language, setLanguage }: NavigationProps) {
 
         {/* Mobile Menu */}
         {isMenuOpen && (
-          <div className="lg:hidden py-4 border-t border-border">
+          <div className="lg:hidden py-4 border-t border-border animate-fade-in">
             <div className="flex flex-col gap-2">
               {navItems[language].map((item) => (
                 <button
