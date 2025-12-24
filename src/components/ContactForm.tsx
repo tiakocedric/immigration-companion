@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { CheckCircle, Clock, Mail, MapPin, Phone, Send } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { toast } from 'sonner';
+import { supabase } from '@/integrations/supabase/client';
 
 interface ContactFormProps {
   language: 'fr' | 'en';
@@ -29,6 +30,7 @@ export default function ContactForm({ language }: ContactFormProps) {
       submit: 'Envoyer',
       submitting: 'Envoi...',
       success: 'Message bien reçu! Nous revenons vers vous rapidement.',
+      error: 'Une erreur est survenue. Veuillez réessayer.',
       namePlaceholder: 'Votre nom complet',
       emailPlaceholder: 'votre@email.com',
       phonePlaceholder: '+1 (514) 000-0000',
@@ -48,6 +50,7 @@ export default function ContactForm({ language }: ContactFormProps) {
       submit: 'Send',
       submitting: 'Sending...',
       success: 'Message received! We will get back shortly.',
+      error: 'An error occurred. Please try again.',
       namePlaceholder: 'Your full name',
       emailPlaceholder: 'your@email.com',
       phonePlaceholder: '+1 (514) 000-0000',
@@ -62,19 +65,28 @@ export default function ContactForm({ language }: ContactFormProps) {
     e.preventDefault();
     setIsSubmitting(true);
     
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
-    setIsSuccess(true);
-    toast.success(content[language].success);
-    setFormData({
-      full_name: '',
-      email: '',
-      phone: '',
-      message: '',
+    const { error } = await supabase.from('contact_submissions').insert({
+      name: formData.full_name,
+      email: formData.email,
+      phone: formData.phone,
+      message: formData.message,
     });
-    setIsSubmitting(false);
+
+    if (error) {
+      toast.error(content[language].error);
+    } else {
+      setIsSuccess(true);
+      toast.success(content[language].success);
+      setFormData({
+        full_name: '',
+        email: '',
+        phone: '',
+        message: '',
+      });
+      setTimeout(() => setIsSuccess(false), 5000);
+    }
     
-    setTimeout(() => setIsSuccess(false), 5000);
+    setIsSubmitting(false);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Calendar, CheckCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { toast } from 'sonner';
+import { supabase } from '@/integrations/supabase/client';
 
 interface AppointmentFormProps {
   language: 'fr' | 'en';
@@ -41,6 +42,7 @@ export default function AppointmentForm({ language }: AppointmentFormProps) {
       submit: 'Confirmer le rendez-vous',
       submitting: 'Envoi en cours...',
       success: 'Rendez-vous demandé avec succès! Confirmation par email sous 24h.',
+      error: 'Une erreur est survenue. Veuillez réessayer.',
       services: [
         'Résidence permanente',
         'Permis de travail',
@@ -78,6 +80,7 @@ export default function AppointmentForm({ language }: AppointmentFormProps) {
       submit: 'Confirm appointment',
       submitting: 'Sending...',
       success: 'Appointment requested successfully! Email confirmation within 24h.',
+      error: 'An error occurred. Please try again.',
       services: [
         'Permanent residence',
         'Work permit',
@@ -101,23 +104,34 @@ export default function AppointmentForm({ language }: AppointmentFormProps) {
     e.preventDefault();
     setIsSubmitting(true);
     
-    // Simulate form submission
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
-    setIsSuccess(true);
-    toast.success(content[language].success);
-    setFormData({
-      full_name: '',
-      email: '',
-      phone: '',
-      service_type: '',
-      preferred_date: '',
-      preferred_time: '',
-      message: '',
+    const { error } = await supabase.from('appointments').insert({
+      name: formData.full_name,
+      email: formData.email,
+      phone: formData.phone,
+      service_type: formData.service_type,
+      preferred_date: formData.preferred_date,
+      preferred_time: formData.preferred_time,
+      message: formData.message,
     });
-    setIsSubmitting(false);
+
+    if (error) {
+      toast.error(content[language].error);
+    } else {
+      setIsSuccess(true);
+      toast.success(content[language].success);
+      setFormData({
+        full_name: '',
+        email: '',
+        phone: '',
+        service_type: '',
+        preferred_date: '',
+        preferred_time: '',
+        message: '',
+      });
+      setTimeout(() => setIsSuccess(false), 5000);
+    }
     
-    setTimeout(() => setIsSuccess(false), 5000);
+    setIsSubmitting(false);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
