@@ -89,6 +89,42 @@ export type Database = {
         }
         Relationships: []
       }
+      faq: {
+        Row: {
+          answer_en: string
+          answer_fr: string
+          created_at: string
+          display_order: number | null
+          id: string
+          is_active: boolean | null
+          question_en: string
+          question_fr: string
+          updated_at: string
+        }
+        Insert: {
+          answer_en: string
+          answer_fr: string
+          created_at?: string
+          display_order?: number | null
+          id?: string
+          is_active?: boolean | null
+          question_en: string
+          question_fr: string
+          updated_at?: string
+        }
+        Update: {
+          answer_en?: string
+          answer_fr?: string
+          created_at?: string
+          display_order?: number | null
+          id?: string
+          is_active?: boolean | null
+          question_en?: string
+          question_fr?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string
@@ -113,6 +149,147 @@ export type Database = {
           id?: string
           updated_at?: string
           user_id?: string
+        }
+        Relationships: []
+      }
+      services: {
+        Row: {
+          created_at: string
+          description_en: string
+          description_fr: string
+          display_order: number | null
+          icon: string | null
+          id: string
+          is_active: boolean | null
+          title_en: string
+          title_fr: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description_en: string
+          description_fr: string
+          display_order?: number | null
+          icon?: string | null
+          id?: string
+          is_active?: boolean | null
+          title_en: string
+          title_fr: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description_en?: string
+          description_fr?: string
+          display_order?: number | null
+          icon?: string | null
+          id?: string
+          is_active?: boolean | null
+          title_en?: string
+          title_fr?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      site_content: {
+        Row: {
+          content_type: string
+          created_at: string
+          id: string
+          key: string
+          updated_at: string
+          value_en: string | null
+          value_fr: string | null
+        }
+        Insert: {
+          content_type?: string
+          created_at?: string
+          id?: string
+          key: string
+          updated_at?: string
+          value_en?: string | null
+          value_fr?: string | null
+        }
+        Update: {
+          content_type?: string
+          created_at?: string
+          id?: string
+          key?: string
+          updated_at?: string
+          value_en?: string | null
+          value_fr?: string | null
+        }
+        Relationships: []
+      }
+      site_images: {
+        Row: {
+          alt_text_en: string | null
+          alt_text_fr: string | null
+          created_at: string
+          id: string
+          image_url: string
+          key: string
+          updated_at: string
+        }
+        Insert: {
+          alt_text_en?: string | null
+          alt_text_fr?: string | null
+          created_at?: string
+          id?: string
+          image_url: string
+          key: string
+          updated_at?: string
+        }
+        Update: {
+          alt_text_en?: string | null
+          alt_text_fr?: string | null
+          created_at?: string
+          id?: string
+          image_url?: string
+          key?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      testimonials: {
+        Row: {
+          content_en: string
+          content_fr: string
+          created_at: string
+          display_order: number | null
+          id: string
+          is_active: boolean | null
+          location_en: string | null
+          location_fr: string | null
+          name: string
+          rating: number | null
+          updated_at: string
+        }
+        Insert: {
+          content_en: string
+          content_fr: string
+          created_at?: string
+          display_order?: number | null
+          id?: string
+          is_active?: boolean | null
+          location_en?: string | null
+          location_fr?: string | null
+          name: string
+          rating?: number | null
+          updated_at?: string
+        }
+        Update: {
+          content_en?: string
+          content_fr?: string
+          created_at?: string
+          display_order?: number | null
+          id?: string
+          is_active?: boolean | null
+          location_en?: string | null
+          location_fr?: string | null
+          name?: string
+          rating?: number | null
+          updated_at?: string
         }
         Relationships: []
       }

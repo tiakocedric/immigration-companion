@@ -106,6 +106,9 @@ export default function Footer({ language }: FooterProps) {
                   {link.label}
                 </button>
               ))}
+              <a href="/auth" className="text-left text-footer-muted hover:text-footer-text transition-colors">
+                Admin
+              </a>
             </div>
           </div>
         </div>

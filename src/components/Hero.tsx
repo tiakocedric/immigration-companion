@@ -1,11 +1,21 @@
-import { Mail, MapPin, Phone } from 'lucide-react';
+import { Mail, MapPin, Phone, User } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useSiteContent } from '@/hooks/useSiteContent';
 
 interface HeroProps {
   language: 'fr' | 'en';
 }
 
 export default function Hero({ language }: HeroProps) {
+  const { getContent, getImage } = useSiteContent();
+  
+  const consultantPhoto = getImage('consultant_photo');
+  const consultantName = getContent('consultant_name', language) || 'Mimb Franklin';
+  const consultantTitle = getContent('consultant_title', language) || (language === 'fr' ? 'Consultant CRIC' : 'RCIC Consultant');
+  const contactPhone = getContent('contact_phone', language) || '(514) 462-7623';
+  const contactEmail = getContent('contact_email', language) || 'fmimb@yahoo.fr';
+  const contactAddress = getContent('contact_address', language) || 'Montréal, Québec, Canada';
+
   const content = {
     fr: {
       badge: 'MIMBIMMIGRATION CONSULTANCY INC.',
@@ -15,8 +25,6 @@ export default function Hero({ language }: HeroProps) {
       highlights: ['Confiance', 'Professionnalisme', 'Immigration réglementée'],
       ctaAppointment: 'Planifier une consultation',
       ctaContact: 'Parler à un expert',
-      advisor: 'Mimb Franklin',
-      advisorRole: 'Consultant CRIC',
       stats: [
         { value: '98%', label: 'Clients satisfaits' },
         { value: '15+', label: 'Programmes d\'immigration' },
@@ -32,8 +40,6 @@ export default function Hero({ language }: HeroProps) {
       highlights: ['Trust', 'Professionalism', 'Regulated expertise'],
       ctaAppointment: 'Schedule a consultation',
       ctaContact: 'Speak with an expert',
-      advisor: 'Mimb Franklin',
-      advisorRole: 'CISR Consultant',
       stats: [
         { value: '98%', label: 'Satisfied clients' },
         { value: '15+', label: 'Immigration streams' },
@@ -121,23 +127,23 @@ export default function Hero({ language }: HeroProps) {
                 <span className="w-12 h-12 rounded-full bg-brand-red flex items-center justify-center shadow-md">
                   <Phone size={20} className="text-primary-foreground" />
                 </span>
-                <a href="tel:+15144627623" className="hover:text-txt-primary transition-colors">
-                  (514) 462-7623
+                <a href={`tel:${contactPhone.replace(/[^+\d]/g, '')}`} className="hover:text-txt-primary transition-colors">
+                  {contactPhone}
                 </a>
               </div>
               <div className="flex items-center gap-3">
                 <span className="w-12 h-12 rounded-full bg-brand-red flex items-center justify-center shadow-md">
                   <Mail size={20} className="text-primary-foreground" />
                 </span>
-                <a href="mailto:fmimb@yahoo.fr" className="hover:text-txt-primary transition-colors">
-                  fmimb@yahoo.fr
+                <a href={`mailto:${contactEmail}`} className="hover:text-txt-primary transition-colors">
+                  {contactEmail}
                 </a>
               </div>
               <div className="flex items-center gap-3">
                 <span className="w-12 h-12 rounded-full bg-brand-red flex items-center justify-center shadow-md">
                   <MapPin size={20} className="text-primary-foreground" />
                 </span>
-                <span>Montréal, Québec, Canada</span>
+                <span>{contactAddress}</span>
               </div>
             </div>
           </motion.div>
@@ -151,14 +157,18 @@ export default function Hero({ language }: HeroProps) {
             <div className="bg-surface border border-border rounded-3xl p-10 shadow-2xl">
               <div className="flex items-center gap-6">
                 <div className="w-28 h-28 rounded-full border-2 border-brand-red overflow-hidden shadow-xl bg-brand-red/20 flex items-center justify-center">
-                  <span className="text-4xl font-heading font-bold text-brand-red">MF</span>
+                  {consultantPhoto ? (
+                    <img src={consultantPhoto} alt={consultantName} className="w-full h-full object-cover" />
+                  ) : (
+                    <User className="w-12 h-12 text-brand-red" />
+                  )}
                 </div>
                 <div>
                   <p className="text-2xl font-heading font-semibold text-txt-primary">
-                    {content[language].advisor}
+                    {consultantName}
                   </p>
-                  <p className="text-brand-red tracking-[0.4em] text-xs uppercase">
-                    {content[language].advisorRole}
+                  <p className="text-brand-red tracking-[0.2em] text-xs uppercase">
+                    {consultantTitle}
                   </p>
                 </div>
               </div>
