@@ -1,4 +1,4 @@
-import { ExternalLink, Mail, MapPin, Phone, ArrowUp } from 'lucide-react';
+import { ExternalLink, Mail, MapPin, Phone, ArrowUp, Facebook, Instagram, Linkedin } from 'lucide-react';
 
 interface FooterProps {
   language: 'fr' | 'en';
@@ -19,9 +19,10 @@ export default function Footer({ language }: FooterProps) {
         { label: 'Contact', href: '#contact' },
       ],
       rights: 'Tous droits réservés.',
-      designedBy: 'Propulsé par',
+      designedBy: 'Site conçu par',
       verifyText: 'Vérifiez mon statut sur le registre du CICC',
       backToTop: 'Retour en haut',
+      followUs: 'Suivez-nous',
     },
     en: {
       contact: 'Contact',
@@ -36,9 +37,10 @@ export default function Footer({ language }: FooterProps) {
         { label: 'Contact', href: '#contact' },
       ],
       rights: 'All rights reserved.',
-      designedBy: 'Powered by',
+      designedBy: 'Designed by',
       verifyText: 'Verify my status on the CICC registry',
       backToTop: 'Back to top',
+      followUs: 'Follow us',
     },
   };
 
@@ -91,6 +93,39 @@ export default function Footer({ language }: FooterProps) {
                 {content[language].verifyText}
                 <ExternalLink size={12} />
               </a>
+            </div>
+            {/* Social Media */}
+            <div className="mt-6">
+              <p className="text-xs text-footer-muted uppercase tracking-wider mb-3">{content[language].followUs}</p>
+              <div className="flex items-center gap-3">
+                <a
+                  href="https://www.facebook.com/mimbimmigration"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-9 h-9 rounded-full bg-footer-muted/10 flex items-center justify-center text-footer-muted hover:bg-primary hover:text-primary-foreground transition-all"
+                  aria-label="Facebook"
+                >
+                  <Facebook size={16} />
+                </a>
+                <a
+                  href="https://www.instagram.com/mimbimmigration"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-9 h-9 rounded-full bg-footer-muted/10 flex items-center justify-center text-footer-muted hover:bg-primary hover:text-primary-foreground transition-all"
+                  aria-label="Instagram"
+                >
+                  <Instagram size={16} />
+                </a>
+                <a
+                  href="https://www.linkedin.com/company/mimbimmigration"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-9 h-9 rounded-full bg-footer-muted/10 flex items-center justify-center text-footer-muted hover:bg-primary hover:text-primary-foreground transition-all"
+                  aria-label="LinkedIn"
+                >
+                  <Linkedin size={16} />
+                </a>
+              </div>
             </div>
           </div>
 
@@ -169,12 +204,12 @@ export default function Footer({ language }: FooterProps) {
             <p>
               {content[language].designedBy}{' '}
               <a
-                href="https://lovable.dev"
+                href="https://smart-solutions-it.vercel.app"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-footer-text hover:text-primary transition-colors"
               >
-                Lovable
+                Smart Solution IT
               </a>
             </p>
           </div>
