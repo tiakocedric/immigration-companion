@@ -9,6 +9,7 @@ import FAQ from '@/components/FAQ';
 import AppointmentForm from '@/components/AppointmentForm';
 import ContactForm from '@/components/ContactForm';
 import Footer from '@/components/Footer';
+import Chatbot from '@/components/Chatbot';
 
 const Index = () => {
   const [language, setLanguage] = useState<'fr' | 'en'>('fr');
@@ -25,6 +26,7 @@ const Index = () => {
       <AppointmentForm language={language} />
       <ContactForm language={language} />
       <Footer language={language} />
+      <Chatbot language={language} />
     </div>
   );
 };
