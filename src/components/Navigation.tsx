@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useTheme } from '@/hooks/useTheme';
 import { motion, AnimatePresence } from 'framer-motion';
-import cricLogo from '@/assets/cric-logo.jpg';
+import cricLogo from '@/assets/cric-logo.png';
 interface NavigationProps {
   language: 'fr' | 'en';
   setLanguage: (lang: 'fr' | 'en') => void;
