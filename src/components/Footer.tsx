@@ -1,9 +1,9 @@
 import { ExternalLink, Mail, MapPin, Phone, ArrowUp, Facebook, Instagram, Linkedin } from 'lucide-react';
+import cricLogo from '@/assets/cric-logo.jpg';
 
 interface FooterProps {
   language: 'fr' | 'en';
 }
-
 export default function Footer({ language }: FooterProps) {
   const content = {
     fr: {
@@ -74,14 +74,16 @@ export default function Footer({ language }: FooterProps) {
         <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 lg:gap-10 mb-8 sm:mb-10 lg:mb-12">
           {/* Brand */}
           <div className="col-span-2 md:col-span-2 lg:col-span-1">
-            <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
-              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-primary flex items-center justify-center flex-shrink-0">
-                <span className="text-primary-foreground font-heading font-bold text-sm sm:text-lg">M</span>
-              </div>
-              <div>
-                <p className="font-heading font-semibold text-footer-text text-xs sm:text-sm tracking-wide">MIMBIMMIGRATION</p>
-                <p className="text-[9px] sm:text-[10px] text-footer-muted tracking-widest uppercase">Consultancy Inc.</p>
-              </div>
+            <div className="flex items-center gap-3 sm:gap-4 mb-4 sm:mb-5">
+              <img 
+                src={cricLogo} 
+                alt="CRIC-CISR - Consultant réglementé en immigration canadienne" 
+                className="h-12 sm:h-14 lg:h-16 w-auto object-contain bg-white rounded-lg p-1.5"
+              />
+            </div>
+            <div>
+              <p className="font-heading font-semibold text-footer-text text-sm sm:text-base tracking-wide">MIMBIMMIGRATION</p>
+              <p className="text-[10px] sm:text-xs text-footer-muted tracking-widest uppercase">Consultancy Inc.</p>
             </div>
             <div className="mt-3 sm:mt-4">
               <a
