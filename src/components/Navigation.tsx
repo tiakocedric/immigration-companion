@@ -1,5 +1,6 @@
 import { Menu, X, Sun, Moon, ChevronRight } from 'lucide-react';
 import { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useTheme } from '@/hooks/useTheme';
 
 interface NavigationProps {
@@ -11,6 +12,8 @@ export default function Navigation({ language, setLanguage }: NavigationProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const { theme, toggleTheme } = useTheme();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -25,26 +28,47 @@ export default function Navigation({ language, setLanguage }: NavigationProps) {
       { label: 'Accueil', href: '#home' },
       { label: 'Expertise', href: '#about' },
       { label: 'Services', href: '#services' },
+      { label: 'Processus', href: '#process' },
       { label: 'Témoignages', href: '#testimonials' },
       { label: 'FAQ', href: '#faq' },
+      { label: 'Blog', href: '/blog', isPage: true },
       { label: 'Contact', href: '#contact' },
     ],
     en: [
       { label: 'Home', href: '#home' },
       { label: 'Expertise', href: '#about' },
       { label: 'Services', href: '#services' },
+      { label: 'Process', href: '#process' },
       { label: 'Testimonials', href: '#testimonials' },
       { label: 'FAQ', href: '#faq' },
+      { label: 'Blog', href: '/blog', isPage: true },
       { label: 'Contact', href: '#contact' },
     ],
   };
 
-  const scrollToSection = (href: string) => {
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+  const handleNavClick = (href: string, isPage?: boolean) => {
+    if (isPage) {
+      navigate(href);
       setIsMenuOpen(false);
+      return;
     }
+    
+    // If we're not on home page, go home first then scroll
+    if (location.pathname !== '/') {
+      navigate('/');
+      setTimeout(() => {
+        const element = document.querySelector(href);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 100);
+    } else {
+      const element = document.querySelector(href);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+    setIsMenuOpen(false);
   };
 
   return (
@@ -73,7 +97,7 @@ export default function Navigation({ language, setLanguage }: NavigationProps) {
             {navItems[language].map((item) => (
               <button
                 key={item.href}
-                onClick={() => scrollToSection(item.href)}
+                onClick={() => handleNavClick(item.href, item.isPage)}
                 className="px-4 py-2 text-sm font-medium text-txt-secondary hover:text-txt-primary transition-colors rounded-md hover:bg-hover"
               >
                 {item.label}
@@ -102,7 +126,7 @@ export default function Navigation({ language, setLanguage }: NavigationProps) {
 
             {/* CTA Button */}
             <button
-              onClick={() => scrollToSection('#appointment')}
+              onClick={() => handleNavClick('#appointment')}
               className="hidden md:flex items-center gap-2 px-5 py-2.5 bg-primary text-primary-foreground rounded-lg font-medium text-sm hover:bg-primary/90 transition-all shadow-sm"
             >
               {language === 'fr' ? 'Consultation' : 'Book Now'}
@@ -126,17 +150,14 @@ export default function Navigation({ language, setLanguage }: NavigationProps) {
               {navItems[language].map((item) => (
                 <button
                   key={item.href}
-                  onClick={() => scrollToSection(item.href)}
+                  onClick={() => handleNavClick(item.href, item.isPage)}
                   className="px-4 py-3 text-left text-txt-secondary hover:text-txt-primary hover:bg-hover rounded-lg transition-colors font-medium"
                 >
                   {item.label}
                 </button>
               ))}
               <button
-                onClick={() => {
-                  scrollToSection('#appointment');
-                  setIsMenuOpen(false);
-                }}
+                onClick={() => handleNavClick('#appointment')}
                 className="mt-4 mx-4 py-3 bg-primary text-primary-foreground rounded-lg font-medium text-center hover:bg-primary/90 transition-colors"
               >
                 {language === 'fr' ? 'Planifier une consultation' : 'Schedule a Consultation'}
