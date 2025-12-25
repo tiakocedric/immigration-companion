@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useTheme } from '@/hooks/useTheme';
 import { motion, AnimatePresence } from 'framer-motion';
-
+import cricLogo from '@/assets/cric-logo.jpg';
 interface NavigationProps {
   language: 'fr' | 'en';
   setLanguage: (lang: 'fr' | 'en') => void;
@@ -150,10 +150,12 @@ export default function Navigation({ language, setLanguage }: NavigationProps) {
               onClick={() => handleNavClick('#home')}
               className="flex items-center gap-2 sm:gap-3"
             >
-              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-primary flex items-center justify-center shadow-sm">
-                <span className="text-primary-foreground font-heading font-bold text-sm sm:text-lg">M</span>
-              </div>
-              <div className="hidden sm:block">
+              <img 
+                src={cricLogo} 
+                alt="CRIC-CISR - Consultant réglementé en immigration canadienne" 
+                className="h-10 sm:h-12 lg:h-14 w-auto object-contain"
+              />
+              <div className="hidden md:block">
                 <p className="font-heading font-semibold text-txt-primary text-xs sm:text-sm tracking-wide">MIMBIMMIGRATION</p>
                 <p className="text-[9px] sm:text-[10px] text-txt-secondary tracking-widest uppercase">Consultant réglementé CICC</p>
               </div>
