@@ -1,101 +1,99 @@
-import { CheckCircle, FileCheck, Scale, Shield, ExternalLink } from 'lucide-react';
+import { CheckCircle, FileCheck, Scale, Shield, ExternalLink, Award } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 interface LegalComplianceProps {
   language: 'fr' | 'en';
 }
 
+const fadeInUp = {
+  initial: { opacity: 0, y: 24 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true, margin: "-50px" },
+  transition: { duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] as const }
+};
+
 export default function LegalCompliance({ language }: LegalComplianceProps) {
   const content = {
     fr: {
+      sectionLabel: 'Conformité',
       title: 'Conformité légale et réglementation',
       subtitle: 'Autorisé par le Collège des consultants en immigration et en citoyenneté',
       description:
-        'En tant que consultant réglementé membre du CICC (Collège des consultants en immigration et en citoyenneté du Canada), je suis légalement autorisé à représenter mes clients devant Immigration, Réfugiés et Citoyenneté Canada (IRCC).',
+        'En tant que consultant réglementé membre du CICC, je suis légalement autorisé à représenter mes clients devant Immigration, Réfugiés et Citoyenneté Canada (IRCC).',
       guarantees: [
         {
           icon: Shield,
           title: 'Protection garantie',
-          description:
-            'Tous les consultants réglementés sont couverts par une assurance responsabilité professionnelle pour protéger vos intérêts.',
+          description: 'Couvert par une assurance responsabilité professionnelle.',
         },
         {
           icon: Scale,
           title: 'Code déontologique',
-          description:
-            'Soumis à un code de conduite strict et à des normes professionnelles élevées établies par le CICC.',
+          description: 'Soumis à des normes professionnelles strictes.',
         },
         {
           icon: FileCheck,
           title: 'Formation continue',
-          description:
-            'Obligation de suivre une formation continue pour rester à jour avec les lois et politiques d\'immigration.',
+          description: 'Toujours à jour avec les lois d\'immigration.',
         },
         {
           icon: CheckCircle,
           title: 'Recours disponible',
-          description:
-            'Le CICC offre un mécanisme de plaintes pour les clients insatisfaits des services reçus.',
+          description: 'Mécanisme de plaintes CICC accessible.',
         },
       ],
       verifyTitle: 'Vérifiez mon statut',
-      verifyDescription:
-        'Vous pouvez vérifier mon statut de membre en règle sur le registre public du CICC.',
-      verifyButton: 'Consulter le registre CICC',
+      verifyDescription: 'Consultez le registre public du CICC pour confirmer mon statut de membre.',
+      verifyButton: 'Consulter le registre',
       importantTitle: 'Important',
-      importantText:
-        'Au Canada, seuls les consultants réglementés en immigration (CRCIC), les avocats et les notaires du Québec sont autorisés à facturer des honoraires pour des conseils ou représentations en matière d\'immigration.',
+      importantText: 'Seuls les consultants réglementés (CRCIC), avocats et notaires du Québec peuvent facturer des honoraires pour des conseils en immigration.',
     },
     en: {
+      sectionLabel: 'Compliance',
       title: 'Legal Compliance & Regulation',
       subtitle: 'Authorized by the College of Immigration and Citizenship Consultants',
       description:
-        'As a regulated consultant and member of the CICC (College of Immigration and Citizenship Consultants of Canada), I am legally authorized to represent my clients before Immigration, Refugees and Citizenship Canada (IRCC).',
+        'As a regulated CICC member, I am legally authorized to represent clients before Immigration, Refugees and Citizenship Canada (IRCC).',
       guarantees: [
         {
           icon: Shield,
           title: 'Guaranteed Protection',
-          description:
-            'All regulated consultants are covered by professional liability insurance to protect your interests.',
+          description: 'Covered by professional liability insurance.',
         },
         {
           icon: Scale,
           title: 'Code of Ethics',
-          description:
-            'Subject to a strict code of conduct and high professional standards established by the CICC.',
+          description: 'Subject to strict professional standards.',
         },
         {
           icon: FileCheck,
           title: 'Continuing Education',
-          description:
-            'Required to complete continuing education to stay current with immigration laws and policies.',
+          description: 'Always current with immigration laws.',
         },
         {
           icon: CheckCircle,
           title: 'Recourse Available',
-          description:
-            'The CICC offers a complaints mechanism for clients dissatisfied with services received.',
+          description: 'CICC complaints mechanism accessible.',
         },
       ],
       verifyTitle: 'Verify My Status',
-      verifyDescription:
-        'You can verify my status as a member in good standing on the CICC public registry.',
-      verifyButton: 'Check CICC Registry',
+      verifyDescription: 'Check the CICC public registry to confirm my member status.',
+      verifyButton: 'Check Registry',
       importantTitle: 'Important',
-      importantText:
-        'In Canada, only regulated immigration consultants (RCICs), lawyers, and Quebec notaries are authorized to charge fees for immigration advice or representation.',
+      importantText: 'Only regulated consultants (RCICs), lawyers, and Quebec notaries can charge fees for immigration advice.',
     },
   };
 
   return (
-    <section className="py-20 bg-background">
+    <section className="py-24 bg-background">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div 
           className="text-center mb-16"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          {...fadeInUp}
         >
+          <span className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-semibold mb-4 border border-primary/20">
+            {content[language].sectionLabel}
+          </span>
           <h2 className="text-3xl sm:text-4xl font-heading font-semibold text-txt-primary mb-4">
             {content[language].title}
           </h2>
@@ -104,85 +102,73 @@ export default function LegalCompliance({ language }: LegalComplianceProps) {
           </p>
         </motion.div>
 
+        {/* Main content card */}
         <motion.div 
-          className="bg-surface border border-border rounded-3xl p-8 lg:p-12 mb-12"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          className="bg-surface border border-border rounded-2xl p-8 lg:p-10 mb-12"
+          {...fadeInUp}
+          transition={{ duration: 0.5, delay: 0.1 }}
         >
-          <div className="flex items-start gap-6 mb-8">
-            <div className="w-16 h-16 rounded-full bg-brand-red flex items-center justify-center flex-shrink-0">
-              <span className="text-primary-foreground font-bold text-xl">★</span>
+          <div className="flex items-start gap-5 mb-8 pb-8 border-b border-border">
+            <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
+              <Award className="w-7 h-7 text-primary" />
             </div>
             <div>
-              <p className="text-txt-primary leading-relaxed text-lg">
-                {content[language].description}
-              </p>
+              <h3 className="font-heading font-semibold text-xl text-txt-primary mb-2">CICC Member</h3>
+              <p className="text-txt-secondary leading-relaxed">{content[language].description}</p>
             </div>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-6">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {content[language].guarantees.map((item, index) => (
               <motion.div
                 key={item.title}
-                className="flex gap-4 p-6 rounded-2xl bg-background/50 border border-border hover:border-brand-red/30 transition-colors"
+                className="p-5 rounded-xl bg-background border border-border hover:border-primary/20 transition-colors"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
+                transition={{ delay: 0.1 + index * 0.1 }}
               >
-                <div className="w-12 h-12 rounded-xl bg-brand-red/10 flex items-center justify-center flex-shrink-0">
-                  <item.icon className="w-6 h-6 text-brand-red" />
+                <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
+                  <item.icon className="w-5 h-5 text-primary" />
                 </div>
-                <div>
-                  <h3 className="font-heading font-semibold text-txt-primary mb-2">
-                    {item.title}
-                  </h3>
-                  <p className="text-sm text-txt-secondary leading-relaxed">
-                    {item.description}
-                  </p>
-                </div>
+                <h4 className="font-semibold text-txt-primary mb-2">{item.title}</h4>
+                <p className="text-sm text-txt-secondary">{item.description}</p>
               </motion.div>
             ))}
           </div>
         </motion.div>
 
-        <div className="grid lg:grid-cols-2 gap-8">
+        {/* Bottom cards */}
+        <div className="grid lg:grid-cols-2 gap-6">
           <motion.div 
-            className="bg-surface border border-border rounded-3xl p-8"
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
+            className="bg-surface border border-border rounded-xl p-6"
+            {...fadeInUp}
+            transition={{ duration: 0.5, delay: 0.2 }}
           >
-            <h3 className="font-heading font-semibold text-xl text-txt-primary mb-4">
+            <h3 className="font-heading font-semibold text-lg text-txt-primary mb-3">
               {content[language].verifyTitle}
             </h3>
-            <p className="text-txt-secondary mb-6">
-              {content[language].verifyDescription}
-            </p>
+            <p className="text-txt-secondary text-sm mb-5">{content[language].verifyDescription}</p>
             <a
               href="https://college-ic.ca/protecting-the-public/find-an-immigration-consultant"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-brand-red text-primary-foreground rounded-full font-semibold hover:bg-brand-red/90 transition-colors"
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary text-primary-foreground rounded-lg font-medium text-sm hover:bg-primary/90 transition-colors"
             >
               {content[language].verifyButton}
-              <ExternalLink size={16} />
+              <ExternalLink size={14} />
             </a>
           </motion.div>
 
           <motion.div 
-            className="bg-brand-red/10 border border-brand-red/30 rounded-3xl p-8"
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
+            className="bg-accent/5 border border-accent/20 rounded-xl p-6"
+            {...fadeInUp}
+            transition={{ duration: 0.5, delay: 0.3 }}
           >
-            <h3 className="font-heading font-semibold text-xl text-txt-primary mb-4">
+            <h3 className="font-heading font-semibold text-lg text-txt-primary mb-3">
               {content[language].importantTitle}
             </h3>
-            <p className="text-txt-secondary leading-relaxed">
-              {content[language].importantText}
-            </p>
+            <p className="text-txt-secondary text-sm leading-relaxed">{content[language].importantText}</p>
           </motion.div>
         </div>
       </div>

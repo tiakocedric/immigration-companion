@@ -1,4 +1,4 @@
-import { ExternalLink, Mail, MapPin, Phone } from 'lucide-react';
+import { ExternalLink, Mail, MapPin, Phone, ArrowUp } from 'lucide-react';
 
 interface FooterProps {
   language: 'fr' | 'en';
@@ -8,33 +8,37 @@ export default function Footer({ language }: FooterProps) {
   const content = {
     fr: {
       contact: 'Contact',
-      quickLinks: 'Liens rapides',
+      quickLinks: 'Navigation',
+      legal: 'Légal',
       links: [
         { label: 'Accueil', href: '#home' },
-        { label: 'À propos', href: '#about' },
+        { label: 'Expertise', href: '#about' },
         { label: 'Services', href: '#services' },
         { label: 'Témoignages', href: '#testimonials' },
         { label: 'FAQ', href: '#faq' },
         { label: 'Contact', href: '#contact' },
       ],
       rights: 'Tous droits réservés.',
-      designedBy: 'Site conçu par',
+      designedBy: 'Propulsé par',
       verifyText: 'Vérifiez mon statut sur le registre du CICC',
+      backToTop: 'Retour en haut',
     },
     en: {
       contact: 'Contact',
-      quickLinks: 'Quick Links',
+      quickLinks: 'Navigation',
+      legal: 'Legal',
       links: [
         { label: 'Home', href: '#home' },
-        { label: 'About', href: '#about' },
+        { label: 'Expertise', href: '#about' },
         { label: 'Services', href: '#services' },
         { label: 'Testimonials', href: '#testimonials' },
         { label: 'FAQ', href: '#faq' },
         { label: 'Contact', href: '#contact' },
       ],
       rights: 'All rights reserved.',
-      designedBy: 'Site designed by',
+      designedBy: 'Powered by',
       verifyText: 'Verify my status on the CICC registry',
+      backToTop: 'Back to top',
     },
   };
 
@@ -45,19 +49,39 @@ export default function Footer({ language }: FooterProps) {
     }
   };
 
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
     <footer className="bg-footer text-footer-text">
+      {/* Back to top */}
+      <div className="border-b border-footer-muted/20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <button
+            onClick={scrollToTop}
+            className="w-full py-4 flex items-center justify-center gap-2 text-footer-muted hover:text-footer-text transition-colors"
+          >
+            <ArrowUp size={16} />
+            <span className="text-sm font-medium">{content[language].backToTop}</span>
+          </button>
+        </div>
+      </div>
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="grid md:grid-cols-3 gap-10 mb-12">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
           {/* Brand */}
-          <div className="space-y-4">
-            <h3 className="text-2xl font-heading font-semibold tracking-widest text-footer-text">
-              MIMBIMMIGRATION
-            </h3>
-            <p className="text-footer-muted text-sm">
-              CONSULTANCY INC.
-            </p>
-            <div className="pt-4">
+          <div className="lg:col-span-1">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 rounded-lg bg-primary flex items-center justify-center">
+                <span className="text-primary-foreground font-heading font-bold text-lg">M</span>
+              </div>
+              <div>
+                <p className="font-heading font-semibold text-footer-text text-sm tracking-wide">MIMBIMMIGRATION</p>
+                <p className="text-[10px] text-footer-muted tracking-widest uppercase">Consultancy Inc.</p>
+              </div>
+            </div>
+            <div className="mt-4">
               <a
                 href="https://college-ic.ca/protecting-the-public/find-an-immigration-consultant"
                 target="_blank"
@@ -65,66 +89,90 @@ export default function Footer({ language }: FooterProps) {
                 className="inline-flex items-center gap-2 text-sm text-footer-muted hover:text-footer-text transition-colors"
               >
                 {content[language].verifyText}
-                <ExternalLink size={14} />
+                <ExternalLink size={12} />
               </a>
-            </div>
-          </div>
-
-          {/* Contact */}
-          <div className="space-y-4">
-            <h4 className="font-heading font-semibold text-lg text-footer-text">
-              {content[language].contact}
-            </h4>
-            <div className="space-y-3">
-              <a href="tel:+15144627623" className="flex items-center gap-3 text-footer-muted hover:text-footer-text transition-colors">
-                <Phone size={16} />
-                (514) 462-7623
-              </a>
-              <a href="mailto:fmimb@yahoo.fr" className="flex items-center gap-3 text-footer-muted hover:text-footer-text transition-colors">
-                <Mail size={16} />
-                fmimb@yahoo.fr
-              </a>
-              <div className="flex items-center gap-3 text-footer-muted">
-                <MapPin size={16} />
-                Montréal, Québec, Canada
-              </div>
             </div>
           </div>
 
           {/* Quick Links */}
-          <div className="space-y-4">
-            <h4 className="font-heading font-semibold text-lg text-footer-text">
+          <div>
+            <h4 className="font-heading font-semibold text-sm text-footer-text mb-4 uppercase tracking-wider">
               {content[language].quickLinks}
             </h4>
-            <div className="grid grid-cols-2 gap-2">
-              {content[language].links.map((link) => (
-                <button
-                  key={link.href}
-                  onClick={() => scrollToSection(link.href)}
-                  className="text-left text-footer-muted hover:text-footer-text transition-colors"
-                >
-                  {link.label}
-                </button>
+            <ul className="space-y-2">
+              {content[language].links.slice(0, 4).map((link) => (
+                <li key={link.href}>
+                  <button
+                    onClick={() => scrollToSection(link.href)}
+                    className="text-sm text-footer-muted hover:text-footer-text transition-colors"
+                  >
+                    {link.label}
+                  </button>
+                </li>
               ))}
-              <a href="/auth" className="text-left text-footer-muted hover:text-footer-text transition-colors">
-                Admin
-              </a>
-            </div>
+            </ul>
+          </div>
+
+          {/* More Links */}
+          <div>
+            <h4 className="font-heading font-semibold text-sm text-footer-text mb-4 uppercase tracking-wider">
+              {content[language].legal}
+            </h4>
+            <ul className="space-y-2">
+              {content[language].links.slice(4).map((link) => (
+                <li key={link.href}>
+                  <button
+                    onClick={() => scrollToSection(link.href)}
+                    className="text-sm text-footer-muted hover:text-footer-text transition-colors"
+                  >
+                    {link.label}
+                  </button>
+                </li>
+              ))}
+              <li>
+                <a href="/auth" className="text-sm text-footer-muted hover:text-footer-text transition-colors">
+                  Admin
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          {/* Contact */}
+          <div>
+            <h4 className="font-heading font-semibold text-sm text-footer-text mb-4 uppercase tracking-wider">
+              {content[language].contact}
+            </h4>
+            <ul className="space-y-3">
+              <li>
+                <a href="tel:+15144627623" className="flex items-center gap-3 text-sm text-footer-muted hover:text-footer-text transition-colors">
+                  <Phone size={14} />
+                  (514) 462-7623
+                </a>
+              </li>
+              <li>
+                <a href="mailto:fmimb@yahoo.fr" className="flex items-center gap-3 text-sm text-footer-muted hover:text-footer-text transition-colors">
+                  <Mail size={14} />
+                  fmimb@yahoo.fr
+                </a>
+              </li>
+              <li className="flex items-center gap-3 text-sm text-footer-muted">
+                <MapPin size={14} />
+                Montréal, QC, Canada
+              </li>
+            </ul>
           </div>
         </div>
 
-        <div className="pt-8 border-t border-footer-muted/30">
+        <div className="pt-8 border-t border-footer-muted/20">
           <div className="flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-footer-muted">
-            <p>
-              © {new Date().getFullYear()} MIMBIMMIGRATION CONSULTANCY INC. {content[language].rights}
-            </p>
+            <p>© {new Date().getFullYear()} MIMBIMMIGRATION CONSULTANCY INC. {content[language].rights}</p>
             <p>
               {content[language].designedBy}{' '}
               <a
                 href="https://lovable.dev"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-footer-text hover:underline"
+                className="text-footer-text hover:text-primary transition-colors"
               >
                 Lovable
               </a>
