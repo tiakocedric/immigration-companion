@@ -1,6 +1,7 @@
 import { ArrowRight, Award, MapPin, Phone, Shield, User } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useSiteContent } from '@/hooks/useSiteContent';
+import franclinPhoto from '@/assets/franclin-profile.jpeg';
 
 interface HeroProps {
   language: 'fr' | 'en';
@@ -141,11 +142,7 @@ export default function Hero({ language }: HeroProps) {
               {/* Photo & Info */}
               <div className="flex items-center gap-5 pb-6 border-b border-border">
                 <div className="w-20 h-20 rounded-xl overflow-hidden bg-muted flex items-center justify-center border-2 border-primary/20">
-                  {consultantPhoto ? (
-                    <img src={consultantPhoto} alt={consultantName} className="w-full h-full object-cover" />
-                  ) : (
-                    <User className="w-10 h-10 text-txt-secondary" />
-                  )}
+                  <img src={franclinPhoto} alt={consultantName} className="w-full h-full object-cover" />
                 </div>
                 <div>
                   <h3 className="text-xl font-heading font-semibold text-txt-primary">{consultantName}</h3>
