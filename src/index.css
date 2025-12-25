@@ -1,102 +1,103 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Mimb Immigration Design System - All colors in HSL */
+/* Mimb Immigration Corporate Design System */
 
 @layer base {
   :root {
-    /* Brand Colors */
-    --brand-red: 355 77% 47%;
-    --brand-navy: 210 60% 12%;
-    --brand-light: 210 30% 93%;
+    /* Brand Colors - Corporate Navy & Gold accent */
+    --brand-red: 355 75% 42%;
+    --brand-navy: 215 50% 15%;
+    --brand-light: 210 25% 96%;
+    --brand-gold: 38 75% 55%;
     
-    /* Semantic Tokens */
-    --background: 210 60% 12%;
-    --foreground: 0 0% 100%;
+    /* Semantic Tokens - Dark Theme */
+    --background: 215 50% 10%;
+    --foreground: 0 0% 98%;
     
-    --surface: 210 50% 17%;
-    --surface-foreground: 0 0% 100%;
+    --surface: 215 45% 14%;
+    --surface-foreground: 0 0% 98%;
     
-    --card: 210 50% 17%;
-    --card-foreground: 0 0% 100%;
+    --card: 215 45% 14%;
+    --card-foreground: 0 0% 98%;
     
-    --popover: 210 50% 17%;
-    --popover-foreground: 0 0% 100%;
+    --popover: 215 45% 14%;
+    --popover-foreground: 0 0% 98%;
     
-    --primary: 355 77% 47%;
+    --primary: 355 75% 42%;
     --primary-foreground: 0 0% 100%;
     
-    --secondary: 210 30% 93%;
-    --secondary-foreground: 210 60% 12%;
+    --secondary: 215 35% 20%;
+    --secondary-foreground: 0 0% 95%;
     
-    --muted: 210 30% 25%;
-    --muted-foreground: 210 20% 70%;
+    --muted: 215 30% 22%;
+    --muted-foreground: 215 15% 65%;
     
-    --accent: 355 77% 47%;
-    --accent-foreground: 0 0% 100%;
+    --accent: 38 75% 55%;
+    --accent-foreground: 215 50% 10%;
     
-    --destructive: 0 84.2% 60.2%;
+    --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 100%;
     
-    --border: 210 30% 25%;
-    --input: 210 30% 25%;
-    --ring: 355 77% 47%;
+    --border: 215 30% 22%;
+    --input: 215 30% 22%;
+    --ring: 355 75% 42%;
     
-    --radius: 0.75rem;
+    --radius: 0.5rem;
     
     /* Text colors */
-    --text-primary: 0 0% 100%;
-    --text-secondary: 210 20% 80%;
+    --text-primary: 0 0% 98%;
+    --text-secondary: 215 15% 70%;
     
     /* UI States */
-    --hover: 210 30% 22%;
+    --hover: 215 35% 18%;
     
     /* Footer - always dark */
-    --footer-bg: 210 60% 10%;
-    --footer-text: 0 0% 100%;
-    --footer-text-muted: 210 20% 75%;
+    --footer-bg: 215 55% 8%;
+    --footer-text: 0 0% 98%;
+    --footer-text-muted: 215 15% 65%;
   }
 
   .light {
-    --background: 0 0% 98%;
-    --foreground: 210 60% 12%;
+    --background: 0 0% 99%;
+    --foreground: 215 50% 12%;
     
     --surface: 0 0% 100%;
-    --surface-foreground: 210 60% 12%;
+    --surface-foreground: 215 50% 12%;
     
     --card: 0 0% 100%;
-    --card-foreground: 210 60% 12%;
+    --card-foreground: 215 50% 12%;
     
     --popover: 0 0% 100%;
-    --popover-foreground: 210 60% 12%;
+    --popover-foreground: 215 50% 12%;
     
-    --primary: 355 77% 47%;
+    --primary: 355 75% 42%;
     --primary-foreground: 0 0% 100%;
     
-    --secondary: 210 30% 93%;
-    --secondary-foreground: 210 60% 12%;
+    --secondary: 215 25% 95%;
+    --secondary-foreground: 215 50% 15%;
     
-    --muted: 210 20% 92%;
-    --muted-foreground: 210 20% 40%;
+    --muted: 215 20% 94%;
+    --muted-foreground: 215 20% 45%;
     
-    --accent: 355 77% 47%;
-    --accent-foreground: 0 0% 100%;
+    --accent: 38 75% 55%;
+    --accent-foreground: 215 50% 10%;
     
-    --border: 210 20% 88%;
-    --input: 210 20% 88%;
+    --border: 215 20% 90%;
+    --input: 215 20% 90%;
     
-    --text-primary: 210 60% 12%;
-    --text-secondary: 210 20% 35%;
+    --text-primary: 215 50% 12%;
+    --text-secondary: 215 20% 40%;
     
-    --hover: 210 20% 95%;
+    --hover: 215 20% 96%;
     
     /* Footer stays dark in light mode too */
-    --footer-bg: 210 60% 10%;
-    --footer-text: 0 0% 100%;
-    --footer-text-muted: 210 20% 75%;
+    --footer-bg: 215 55% 8%;
+    --footer-text: 0 0% 98%;
+    --footer-text-muted: 215 15% 65%;
   }
 
   * {
@@ -105,15 +106,48 @@
 
   body {
     @apply bg-background text-foreground font-body antialiased transition-colors duration-300;
+    font-feature-settings: "cv11", "ss01";
+    -webkit-font-smoothing: antialiased;
   }
 
   h1, h2, h3, h4, h5, h6 {
     @apply font-heading;
+    letter-spacing: -0.02em;
+  }
+}
+
+@layer components {
+  /* Corporate button styles */
+  .btn-corporate {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 font-medium transition-all duration-200;
+    @apply bg-primary text-primary-foreground rounded-md shadow-sm;
+    @apply hover:bg-primary/90 hover:shadow-md active:scale-[0.98];
+  }
+  
+  .btn-corporate-outline {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 font-medium transition-all duration-200;
+    @apply bg-transparent border-2 border-border text-txt-primary rounded-md;
+    @apply hover:bg-hover hover:border-primary/50;
+  }
+  
+  /* Corporate card styles */
+  .card-corporate {
+    @apply bg-surface border border-border rounded-lg p-6 shadow-sm;
+    @apply hover:shadow-md hover:border-primary/20 transition-all duration-300;
+  }
+  
+  /* Section divider */
+  .section-divider {
+    @apply w-16 h-1 bg-primary rounded-full mx-auto;
   }
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+  
+  .gradient-text {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent;
   }
 }
