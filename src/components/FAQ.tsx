@@ -37,27 +37,27 @@ export default function FAQ({ language }: FAQProps) {
   };
 
   return (
-    <section id="faq" className="py-24 bg-background">
+    <section id="faq" className="py-16 sm:py-20 lg:py-24 bg-background">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div className="text-center mb-12" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-          <span className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-semibold mb-4 border border-primary/20">
+        <motion.div className="text-center mb-8 sm:mb-10 lg:mb-12" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+          <span className="inline-block px-3 sm:px-4 py-1 sm:py-1.5 rounded-full bg-primary/10 text-primary text-xs sm:text-sm font-semibold mb-3 sm:mb-4 border border-primary/20">
             {content[language].sectionLabel}
           </span>
-          <h2 className="text-3xl sm:text-4xl font-heading font-semibold text-txt-primary mb-4">{content[language].title}</h2>
-          <p className="text-txt-secondary text-lg">{content[language].subtitle}</p>
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-heading font-semibold text-txt-primary mb-3 sm:mb-4">{content[language].title}</h2>
+          <p className="text-txt-secondary text-sm sm:text-base lg:text-lg px-4">{content[language].subtitle}</p>
         </motion.div>
 
-        <div className="space-y-3">
+        <div className="space-y-2 sm:space-y-3">
           {content[language].faqs.map((faq, index) => (
-            <motion.div key={index} className="bg-surface rounded-xl border border-border overflow-hidden" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: index * 0.05 }}>
-              <button onClick={() => setOpenIndex(openIndex === index ? null : index)} className="w-full flex items-center justify-between p-5 text-left">
-                <span className="font-medium text-txt-primary pr-4">{faq.question}</span>
-                <ChevronDown className={`w-5 h-5 text-txt-secondary flex-shrink-0 transition-transform ${openIndex === index ? 'rotate-180' : ''}`} />
+            <motion.div key={index} className="bg-surface rounded-lg sm:rounded-xl border border-border overflow-hidden" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: index * 0.05 }}>
+              <button onClick={() => setOpenIndex(openIndex === index ? null : index)} className="w-full flex items-center justify-between p-4 sm:p-5 text-left">
+                <span className="font-medium text-txt-primary pr-3 sm:pr-4 text-sm sm:text-base">{faq.question}</span>
+                <ChevronDown className={`w-4 h-4 sm:w-5 sm:h-5 text-txt-secondary flex-shrink-0 transition-transform ${openIndex === index ? 'rotate-180' : ''}`} />
               </button>
               <AnimatePresence>
                 {openIndex === index && (
                   <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.2 }} className="overflow-hidden">
-                    <div className="px-5 pb-5 text-txt-secondary leading-relaxed">{faq.answer}</div>
+                    <div className="px-4 sm:px-5 pb-4 sm:pb-5 text-txt-secondary leading-relaxed text-sm sm:text-base">{faq.answer}</div>
                   </motion.div>
                 )}
               </AnimatePresence>

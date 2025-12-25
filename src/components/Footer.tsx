@@ -62,68 +62,68 @@ export default function Footer({ language }: FooterProps) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <button
             onClick={scrollToTop}
-            className="w-full py-4 flex items-center justify-center gap-2 text-footer-muted hover:text-footer-text transition-colors"
+            className="w-full py-3 sm:py-4 flex items-center justify-center gap-2 text-footer-muted hover:text-footer-text transition-colors"
           >
-            <ArrowUp size={16} />
-            <span className="text-sm font-medium">{content[language].backToTop}</span>
+            <ArrowUp size={14} className="sm:w-4 sm:h-4" />
+            <span className="text-xs sm:text-sm font-medium">{content[language].backToTop}</span>
           </button>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12 lg:py-16">
+        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 lg:gap-10 mb-8 sm:mb-10 lg:mb-12">
           {/* Brand */}
-          <div className="lg:col-span-1">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded-lg bg-primary flex items-center justify-center">
-                <span className="text-primary-foreground font-heading font-bold text-lg">M</span>
+          <div className="col-span-2 md:col-span-2 lg:col-span-1">
+            <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
+              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-primary flex items-center justify-center flex-shrink-0">
+                <span className="text-primary-foreground font-heading font-bold text-sm sm:text-lg">M</span>
               </div>
               <div>
-                <p className="font-heading font-semibold text-footer-text text-sm tracking-wide">MIMBIMMIGRATION</p>
-                <p className="text-[10px] text-footer-muted tracking-widest uppercase">Consultancy Inc.</p>
+                <p className="font-heading font-semibold text-footer-text text-xs sm:text-sm tracking-wide">MIMBIMMIGRATION</p>
+                <p className="text-[9px] sm:text-[10px] text-footer-muted tracking-widest uppercase">Consultancy Inc.</p>
               </div>
             </div>
-            <div className="mt-4">
+            <div className="mt-3 sm:mt-4">
               <a
                 href="https://college-ic.ca/protecting-the-public/find-an-immigration-consultant"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-sm text-footer-muted hover:text-footer-text transition-colors"
+                className="inline-flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm text-footer-muted hover:text-footer-text transition-colors"
               >
                 {content[language].verifyText}
-                <ExternalLink size={12} />
+                <ExternalLink size={10} className="sm:w-3 sm:h-3" />
               </a>
             </div>
             {/* Social Media */}
-            <div className="mt-6">
-              <p className="text-xs text-footer-muted uppercase tracking-wider mb-3">{content[language].followUs}</p>
-              <div className="flex items-center gap-3">
+            <div className="mt-4 sm:mt-6">
+              <p className="text-[10px] sm:text-xs text-footer-muted uppercase tracking-wider mb-2 sm:mb-3">{content[language].followUs}</p>
+              <div className="flex items-center gap-2 sm:gap-3">
                 <a
                   href="https://www.facebook.com/mimbimmigration"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-9 h-9 rounded-full bg-footer-muted/10 flex items-center justify-center text-footer-muted hover:bg-primary hover:text-primary-foreground transition-all"
+                  className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-footer-muted/10 flex items-center justify-center text-footer-muted hover:bg-primary hover:text-primary-foreground transition-all"
                   aria-label="Facebook"
                 >
-                  <Facebook size={16} />
+                  <Facebook size={14} className="sm:w-4 sm:h-4" />
                 </a>
                 <a
                   href="https://www.instagram.com/mimbimmigration"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-9 h-9 rounded-full bg-footer-muted/10 flex items-center justify-center text-footer-muted hover:bg-primary hover:text-primary-foreground transition-all"
+                  className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-footer-muted/10 flex items-center justify-center text-footer-muted hover:bg-primary hover:text-primary-foreground transition-all"
                   aria-label="Instagram"
                 >
-                  <Instagram size={16} />
+                  <Instagram size={14} className="sm:w-4 sm:h-4" />
                 </a>
                 <a
                   href="https://www.linkedin.com/company/mimbimmigration"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-9 h-9 rounded-full bg-footer-muted/10 flex items-center justify-center text-footer-muted hover:bg-primary hover:text-primary-foreground transition-all"
+                  className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-footer-muted/10 flex items-center justify-center text-footer-muted hover:bg-primary hover:text-primary-foreground transition-all"
                   aria-label="LinkedIn"
                 >
-                  <Linkedin size={16} />
+                  <Linkedin size={14} className="sm:w-4 sm:h-4" />
                 </a>
               </div>
             </div>
@@ -131,15 +131,15 @@ export default function Footer({ language }: FooterProps) {
 
           {/* Quick Links */}
           <div>
-            <h4 className="font-heading font-semibold text-sm text-footer-text mb-4 uppercase tracking-wider">
+            <h4 className="font-heading font-semibold text-xs sm:text-sm text-footer-text mb-3 sm:mb-4 uppercase tracking-wider">
               {content[language].quickLinks}
             </h4>
-            <ul className="space-y-2">
+            <ul className="space-y-1.5 sm:space-y-2">
               {content[language].links.slice(0, 4).map((link) => (
                 <li key={link.href}>
                   <button
                     onClick={() => scrollToSection(link.href)}
-                    className="text-sm text-footer-muted hover:text-footer-text transition-colors"
+                    className="text-xs sm:text-sm text-footer-muted hover:text-footer-text transition-colors"
                   >
                     {link.label}
                   </button>
@@ -150,22 +150,22 @@ export default function Footer({ language }: FooterProps) {
 
           {/* More Links */}
           <div>
-            <h4 className="font-heading font-semibold text-sm text-footer-text mb-4 uppercase tracking-wider">
+            <h4 className="font-heading font-semibold text-xs sm:text-sm text-footer-text mb-3 sm:mb-4 uppercase tracking-wider">
               {content[language].legal}
             </h4>
-            <ul className="space-y-2">
+            <ul className="space-y-1.5 sm:space-y-2">
               {content[language].links.slice(4).map((link) => (
                 <li key={link.href}>
                   <button
                     onClick={() => scrollToSection(link.href)}
-                    className="text-sm text-footer-muted hover:text-footer-text transition-colors"
+                    className="text-xs sm:text-sm text-footer-muted hover:text-footer-text transition-colors"
                   >
                     {link.label}
                   </button>
                 </li>
               ))}
               <li>
-                <a href="/auth" className="text-sm text-footer-muted hover:text-footer-text transition-colors">
+                <a href="/auth" className="text-xs sm:text-sm text-footer-muted hover:text-footer-text transition-colors">
                   Admin
                 </a>
               </li>
@@ -174,32 +174,32 @@ export default function Footer({ language }: FooterProps) {
 
           {/* Contact */}
           <div>
-            <h4 className="font-heading font-semibold text-sm text-footer-text mb-4 uppercase tracking-wider">
+            <h4 className="font-heading font-semibold text-xs sm:text-sm text-footer-text mb-3 sm:mb-4 uppercase tracking-wider">
               {content[language].contact}
             </h4>
-            <ul className="space-y-3">
+            <ul className="space-y-2 sm:space-y-3">
               <li>
-                <a href="tel:+15144627623" className="flex items-center gap-3 text-sm text-footer-muted hover:text-footer-text transition-colors">
-                  <Phone size={14} />
+                <a href="tel:+15144627623" className="flex items-center gap-2 sm:gap-3 text-xs sm:text-sm text-footer-muted hover:text-footer-text transition-colors">
+                  <Phone size={12} className="sm:w-[14px] sm:h-[14px] flex-shrink-0" />
                   (514) 462-7623
                 </a>
               </li>
               <li>
-                <a href="mailto:fmimb@yahoo.fr" className="flex items-center gap-3 text-sm text-footer-muted hover:text-footer-text transition-colors">
-                  <Mail size={14} />
+                <a href="mailto:fmimb@yahoo.fr" className="flex items-center gap-2 sm:gap-3 text-xs sm:text-sm text-footer-muted hover:text-footer-text transition-colors">
+                  <Mail size={12} className="sm:w-[14px] sm:h-[14px] flex-shrink-0" />
                   fmimb@yahoo.fr
                 </a>
               </li>
-              <li className="flex items-center gap-3 text-sm text-footer-muted">
-                <MapPin size={14} />
+              <li className="flex items-center gap-2 sm:gap-3 text-xs sm:text-sm text-footer-muted">
+                <MapPin size={12} className="sm:w-[14px] sm:h-[14px] flex-shrink-0" />
                 Montréal, QC, Canada
               </li>
             </ul>
           </div>
         </div>
 
-        <div className="pt-8 border-t border-footer-muted/20">
-          <div className="flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-footer-muted">
+        <div className="pt-6 sm:pt-8 border-t border-footer-muted/20">
+          <div className="flex flex-col sm:flex-row justify-between items-center gap-3 sm:gap-4 text-[10px] sm:text-xs lg:text-sm text-footer-muted text-center sm:text-left">
             <p>© {new Date().getFullYear()} MIMBIMMIGRATION CONSULTANCY INC. {content[language].rights}</p>
             <p>
               {content[language].designedBy}{' '}
