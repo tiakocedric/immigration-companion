@@ -4,6 +4,7 @@ import Hero from '@/components/Hero';
 import LegalCompliance from '@/components/LegalCompliance';
 import About from '@/components/About';
 import Services from '@/components/Services';
+import Process from '@/components/Process';
 import Testimonials from '@/components/Testimonials';
 import FAQ from '@/components/FAQ';
 import AppointmentForm from '@/components/AppointmentForm';
@@ -21,6 +22,7 @@ const Index = () => {
       <LegalCompliance language={language} />
       <About language={language} />
       <Services language={language} />
+      <Process language={language} />
       <Testimonials language={language} />
       <FAQ language={language} />
       <AppointmentForm language={language} />
