@@ -1,5 +1,5 @@
 import { ExternalLink, Mail, MapPin, Phone, ArrowUp, Facebook, Instagram, Linkedin } from 'lucide-react';
-import cricLogo from '@/assets/cric-logo.jpg';
+import cricLogo from '@/assets/cric-logo.png';
 
 interface FooterProps {
   language: 'fr' | 'en';
