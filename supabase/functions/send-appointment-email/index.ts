@@ -192,7 +192,7 @@ serve(async (req) => {
     }
 
     const result = await resend.emails.send({
-      from: "MIMB Immigration <onboarding@resend.dev>",
+      from: "MIMB Immigration <support@mimbimmigration.com>",
       to,
       cc,
       subject: emailContent.subject,
