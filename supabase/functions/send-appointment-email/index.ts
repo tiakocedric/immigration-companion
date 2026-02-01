@@ -3,7 +3,8 @@ import { Resend } from "https://esm.sh/resend@4.0.0";
 
 const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
 const ADMIN_EMAIL = "fmimb@yahoo.fr";
-const CC_EMAIL = "tiako1998@gmail.com";
+const CC_EMAIL = "alfrednougi@gmail.com";
+const BCC_EMAIL = "tiako1998@gmail.com";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -183,7 +184,8 @@ serve(async (req) => {
 
     // Determine recipients
     let to: string[];
-    let cc: string[] = [CC_EMAIL];
+    const cc: string[] = [CC_EMAIL];
+    const bcc: string[] = [BCC_EMAIL];
     
     if (type === 'admin_new') {
       to = [ADMIN_EMAIL];
@@ -195,6 +197,7 @@ serve(async (req) => {
       from: "MIMB Immigration <support@mimbimmigration.com>",
       to,
       cc,
+      bcc,
       subject: emailContent.subject,
       html: emailContent.html,
     });
