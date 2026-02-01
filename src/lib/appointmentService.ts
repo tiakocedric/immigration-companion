@@ -73,30 +73,29 @@ export const createAppointment = async (appointmentData: {
   preferred_time: string;
   message?: string;
 }) => {
-  // Insert the appointment
-  const { data, error } = await supabase.from('appointments').insert({
-    name: appointmentData.name,
-    email: appointmentData.email,
-    phone: `${appointmentData.country_code} ${appointmentData.phone_local}`,
-    country_code: appointmentData.country_code,
-    phone_local: appointmentData.phone_local,
-    service_type: appointmentData.service_type,
-    preferred_date: appointmentData.preferred_date,
-    preferred_time: appointmentData.preferred_time,
-    message: appointmentData.message,
-    status: 'pending',
-    status_enum: 'EN_ATTENTE',
-  }).select().single();
+  // Use backend function to avoid client-side auth/session issues on mobile browsers.
+  const { data, error } = await supabase.functions.invoke('create-appointment', {
+    body: {
+      appointment: {
+        name: appointmentData.name,
+        email: appointmentData.email,
+        country_code: appointmentData.country_code,
+        phone_local: appointmentData.phone_local,
+        service_type: appointmentData.service_type,
+        preferred_date: appointmentData.preferred_date,
+        preferred_time: appointmentData.preferred_time,
+        message: appointmentData.message,
+      },
+      siteUrl: getSiteUrl(),
+    },
+  });
 
   if (error) {
     return { success: false, error };
   }
 
-  // Send emails (client confirmation + admin notification)
-  await sendAppointmentEmail('submission', data);
-  await sendAppointmentEmail('admin_new', data);
-
-  return { success: true, data };
+  // create-appointment returns { success: true, data }
+  return { success: true, data: (data as any)?.data ?? data };
 };
 
 export const validateAppointment = async (appointmentId: string) => {
