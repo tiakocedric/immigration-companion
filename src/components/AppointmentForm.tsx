@@ -163,82 +163,85 @@ export default function AppointmentForm({ language }: AppointmentFormProps) {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const inputClasses = "w-full px-4 py-3.5 bg-background border border-border rounded-lg text-txt-primary placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50 transition-all";
-  const selectClasses = "w-full px-4 py-3.5 bg-background border border-border rounded-lg text-txt-primary focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50 transition-all appearance-none cursor-pointer";
+  const inputClasses = "w-full px-3 sm:px-4 py-3 sm:py-3.5 bg-background border border-border rounded-lg text-txt-primary placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50 transition-all text-sm sm:text-base";
+  const selectClasses = "w-full px-3 sm:px-4 py-3 sm:py-3.5 bg-background border border-border rounded-lg text-txt-primary focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50 transition-all appearance-none cursor-pointer text-sm sm:text-base";
 
   return (
-    <section id="appointment" className="py-16 sm:py-20 lg:py-24 bg-section-gradient">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="appointment" className="py-12 sm:py-16 lg:py-24 bg-section-gradient overflow-hidden">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
         <motion.div 
-          className="text-center mb-10 sm:mb-12 lg:mb-16"
+          className="text-center mb-8 sm:mb-12 lg:mb-16"
           {...fadeInUp}
         >
-          <span className="inline-block px-3 sm:px-4 py-1 sm:py-1.5 rounded-full bg-primary/10 text-primary text-xs sm:text-sm font-semibold mb-3 sm:mb-4 border border-primary/20">
+          <span className="inline-block px-3 py-1 sm:py-1.5 rounded-full bg-primary/10 text-primary text-xs sm:text-sm font-semibold mb-3 border border-primary/20">
             {content[language].sectionLabel}
           </span>
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-heading font-semibold text-txt-primary mb-3 sm:mb-4">
+          <h2 className="text-xl sm:text-2xl lg:text-4xl font-heading font-semibold text-txt-primary mb-2 sm:mb-4 px-2">
             {content[language].title}
           </h2>
-          <p className="text-txt-secondary text-sm sm:text-base lg:text-lg max-w-2xl mx-auto px-4">
+          <p className="text-txt-secondary text-sm sm:text-base lg:text-lg max-w-2xl mx-auto px-2">
             {content[language].subtitle}
           </p>
         </motion.div>
 
-        <div className="grid lg:grid-cols-5 gap-12">
-          {/* Info Column */}
+        <div className="grid lg:grid-cols-5 gap-6 sm:gap-8 lg:gap-12">
+          {/* Info Column - Hidden on very small screens, shown as compact row on sm */}
           <motion.div 
-            className="lg:col-span-2 space-y-6"
+            className="lg:col-span-2 space-y-4 sm:space-y-6"
             {...fadeInUp}
           >
-            {/* Features */}
-            <div className="space-y-4">
+            {/* Features - Horizontal scroll on mobile */}
+            <div className="flex lg:flex-col gap-3 overflow-x-auto pb-2 lg:pb-0 lg:overflow-visible -mx-3 px-3 lg:mx-0 lg:px-0 scrollbar-hide">
               {content[language].features.map((feature, index) => (
                 <motion.div
                   key={feature.text}
-                  className="flex items-center gap-4 p-4 bg-surface rounded-xl border border-border"
+                  className="flex items-center gap-3 p-3 sm:p-4 bg-surface rounded-xl border border-border flex-shrink-0 min-w-[200px] lg:min-w-0"
                   initial={{ opacity: 0, x: -20 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1 }}
                 >
-                  <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
-                    <feature.icon className="w-5 h-5 text-primary" />
+                  <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                    <feature.icon className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
                   </div>
-                  <span className="text-txt-primary font-medium">{feature.text}</span>
+                  <span className="text-txt-primary font-medium text-sm sm:text-base whitespace-nowrap lg:whitespace-normal">{feature.text}</span>
                 </motion.div>
               ))}
             </div>
 
-            {/* Response Time Card */}
-            <motion.div 
-              className="p-6 bg-primary/5 rounded-xl border border-primary/20"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.3 }}
-            >
-              <p className="text-sm text-txt-secondary mb-2">{content[language].responseTime}</p>
-              <p className="text-3xl font-heading font-bold text-primary">{content[language].responseTimeValue}</p>
-            </motion.div>
+            {/* Response Time & Trust Badge - Side by side on mobile */}
+            <div className="grid grid-cols-2 lg:grid-cols-1 gap-3 sm:gap-4">
+              {/* Response Time Card */}
+              <motion.div 
+                className="p-4 sm:p-6 bg-primary/5 rounded-xl border border-primary/20"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.3 }}
+              >
+                <p className="text-xs sm:text-sm text-txt-secondary mb-1 sm:mb-2">{content[language].responseTime}</p>
+                <p className="text-xl sm:text-3xl font-heading font-bold text-primary">{content[language].responseTimeValue}</p>
+              </motion.div>
 
-            {/* Trust Badge */}
-            <motion.div 
-              className="p-5 bg-surface rounded-xl border border-border"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.4 }}
-            >
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center">
-                  <Shield className="w-5 h-5 text-accent" />
+              {/* Trust Badge */}
+              <motion.div 
+                className="p-4 sm:p-5 bg-surface rounded-xl border border-border"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.4 }}
+              >
+                <div className="flex items-center gap-2 sm:gap-3">
+                  <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-accent/10 flex items-center justify-center">
+                    <Shield className="w-4 h-4 sm:w-5 sm:h-5 text-accent" />
+                  </div>
+                  <div>
+                    <p className="font-medium text-txt-primary text-sm sm:text-base">CICC Member</p>
+                    <p className="text-xs sm:text-sm text-txt-secondary">Regulated Consultant</p>
+                  </div>
                 </div>
-                <div>
-                  <p className="font-medium text-txt-primary">CICC Member</p>
-                  <p className="text-sm text-txt-secondary">Regulated Consultant</p>
-                </div>
-              </div>
-            </motion.div>
+              </motion.div>
+            </div>
           </motion.div>
 
           {/* Form Column */}
@@ -248,22 +251,22 @@ export default function AppointmentForm({ language }: AppointmentFormProps) {
             transition={{ duration: 0.5, delay: 0.2 }}
           >
             {isSuccess ? (
-              <div className="bg-surface rounded-2xl p-12 border border-primary/20 text-center h-full flex flex-col items-center justify-center min-h-[500px]">
-                <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-6">
-                  <CheckCircle className="w-8 h-8 text-primary" />
+              <div className="bg-surface rounded-xl sm:rounded-2xl p-8 sm:p-12 border border-primary/20 text-center h-full flex flex-col items-center justify-center min-h-[400px] sm:min-h-[500px]">
+                <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-primary/10 flex items-center justify-center mb-4 sm:mb-6">
+                  <CheckCircle className="w-6 h-6 sm:w-8 sm:h-8 text-primary" />
                 </div>
-                <h3 className="text-2xl font-heading font-semibold text-txt-primary mb-2">
+                <h3 className="text-xl sm:text-2xl font-heading font-semibold text-txt-primary mb-2">
                   {content[language].success}
                 </h3>
-                <p className="text-txt-secondary">{content[language].successSubtext}</p>
+                <p className="text-txt-secondary text-sm sm:text-base">{content[language].successSubtext}</p>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="bg-surface rounded-2xl p-8 border border-border">
-                <div className="space-y-5">
+              <form onSubmit={handleSubmit} className="bg-surface rounded-xl sm:rounded-2xl p-4 sm:p-6 lg:p-8 border border-border">
+                <div className="space-y-4 sm:space-y-5">
                   {/* Row 1: Name & Email */}
-                  <div className="grid sm:grid-cols-2 gap-5">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
                     <div>
-                      <label className="block text-sm font-medium text-txt-primary mb-2">
+                      <label className="block text-xs sm:text-sm font-medium text-txt-primary mb-1.5 sm:mb-2">
                         {content[language].name} <span className="text-primary">*</span>
                       </label>
                       <input
@@ -276,7 +279,7 @@ export default function AppointmentForm({ language }: AppointmentFormProps) {
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-txt-primary mb-2">
+                      <label className="block text-xs sm:text-sm font-medium text-txt-primary mb-1.5 sm:mb-2">
                         {content[language].email} <span className="text-primary">*</span>
                       </label>
                       <input
@@ -291,9 +294,9 @@ export default function AppointmentForm({ language }: AppointmentFormProps) {
                   </div>
 
                   {/* Row 2: Phone & Service */}
-                  <div className="grid sm:grid-cols-2 gap-5">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
                     <div>
-                      <label className="block text-sm font-medium text-txt-primary mb-2">
+                      <label className="block text-xs sm:text-sm font-medium text-txt-primary mb-1.5 sm:mb-2">
                         {content[language].phone} <span className="text-primary">*</span>
                       </label>
                       <PhoneInput
@@ -305,7 +308,7 @@ export default function AppointmentForm({ language }: AppointmentFormProps) {
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-txt-primary mb-2">
+                      <label className="block text-xs sm:text-sm font-medium text-txt-primary mb-1.5 sm:mb-2">
                         {content[language].service} <span className="text-primary">*</span>
                       </label>
                       <select
@@ -324,9 +327,9 @@ export default function AppointmentForm({ language }: AppointmentFormProps) {
                   </div>
 
                   {/* Row 3: Date & Time */}
-                  <div className="grid sm:grid-cols-2 gap-5">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
                     <div>
-                      <label className="block text-sm font-medium text-txt-primary mb-2">
+                      <label className="block text-xs sm:text-sm font-medium text-txt-primary mb-1.5 sm:mb-2">
                         {content[language].date} <span className="text-primary">*</span>
                       </label>
                       <input
@@ -340,7 +343,7 @@ export default function AppointmentForm({ language }: AppointmentFormProps) {
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-txt-primary mb-2">
+                      <label className="block text-xs sm:text-sm font-medium text-txt-primary mb-1.5 sm:mb-2">
                         {content[language].time} <span className="text-primary">*</span>
                       </label>
                       <select
@@ -360,7 +363,7 @@ export default function AppointmentForm({ language }: AppointmentFormProps) {
 
                   {/* Row 4: Message */}
                   <div>
-                    <label className="block text-sm font-medium text-txt-primary mb-2">
+                    <label className="block text-xs sm:text-sm font-medium text-txt-primary mb-1.5 sm:mb-2">
                       {content[language].message}
                     </label>
                     <textarea
@@ -368,7 +371,7 @@ export default function AppointmentForm({ language }: AppointmentFormProps) {
                       value={formData.message}
                       onChange={handleChange}
                       placeholder={content[language].messagePlaceholder}
-                      rows={4}
+                      rows={3}
                       className={`${inputClasses} resize-none`}
                     />
                   </div>
@@ -377,7 +380,7 @@ export default function AppointmentForm({ language }: AppointmentFormProps) {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full py-4 bg-primary text-primary-foreground rounded-lg font-semibold hover:bg-primary/90 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-lg shadow-primary/20"
+                    className="w-full py-3 sm:py-4 bg-primary text-primary-foreground rounded-lg font-semibold hover:bg-primary/90 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-lg shadow-primary/20 text-sm sm:text-base"
                   >
                     {isSubmitting ? (
                       content[language].submitting
