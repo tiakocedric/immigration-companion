@@ -18,7 +18,7 @@ export default function Hero({ language }: HeroProps) {
 
   const content = {
     fr: {
-      badge: 'Consultant réglementé CICC',
+      badge: 'MIMBIMMIGRATION CONSULTANCY INC.',
       title: 'Votre partenaire de confiance en',
       titleHighlight: 'immigration canadienne',
       description: 'Accompagnement professionnel et personnalisé pour concrétiser votre projet d\'immigration. Expertise réglementée, processus transparent, résultats prouvés.',
@@ -35,7 +35,7 @@ export default function Hero({ language }: HeroProps) {
       ],
     },
     en: {
-      badge: 'CICC Regulated Consultant',
+      badge: 'MIMBIMMIGRATION CONSULTANCY INC.',
       title: 'Your trusted partner in',
       titleHighlight: 'Canadian immigration',
       description: 'Professional and personalized guidance to make your immigration project a reality. Regulated expertise, transparent process, proven results.',
