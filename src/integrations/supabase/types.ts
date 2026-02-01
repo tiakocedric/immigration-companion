@@ -281,6 +281,7 @@ export type Database = {
           location_fr: string | null
           name: string
           rating: number | null
+          status: string
           updated_at: string
         }
         Insert: {
@@ -294,6 +295,7 @@ export type Database = {
           location_fr?: string | null
           name: string
           rating?: number | null
+          status?: string
           updated_at?: string
         }
         Update: {
@@ -307,6 +309,7 @@ export type Database = {
           location_fr?: string | null
           name?: string
           rating?: number | null
+          status?: string
           updated_at?: string
         }
         Relationships: []

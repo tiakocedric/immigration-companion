@@ -65,6 +65,7 @@ interface Testimonial {
   rating: number;
   display_order: number;
   is_active: boolean;
+  status: string;
 }
 
 interface Service {
@@ -88,7 +89,7 @@ interface FAQ {
   is_active: boolean;
 }
 
-type Tab = 'appointments' | 'history' | 'contacts' | 'content' | 'services' | 'testimonials' | 'faq' | 'photos';
+type Tab = 'appointments' | 'history' | 'contacts' | 'content' | 'services' | 'testimonials' | 'pending-testimonials' | 'faq' | 'photos';
 
 export default function Admin() {
   const { user, isAdmin, isLoading, signOut } = useAuth();
@@ -261,6 +262,16 @@ export default function Admin() {
     if (error) toast.error('Erreur'); else { toast.success('Témoignage mis à jour'); fetchData(); setEditingContent(null); }
   };
 
+  const approveTestimonial = async (id: string) => {
+    const { error } = await supabase.from('testimonials').update({ status: 'approved' }).eq('id', id);
+    if (error) toast.error('Erreur'); else { toast.success('Témoignage approuvé'); fetchData(); }
+  };
+
+  const rejectTestimonial = async (id: string) => {
+    const { error } = await supabase.from('testimonials').update({ status: 'rejected' }).eq('id', id);
+    if (error) toast.error('Erreur'); else { toast.success('Témoignage rejeté'); fetchData(); }
+  };
+
   const deleteTestimonial = async (id: string) => {
     const { error } = await supabase.from('testimonials').delete().eq('id', id);
     if (error) toast.error('Erreur'); else { toast.success('Témoignage supprimé'); fetchData(); }
@@ -275,6 +286,7 @@ export default function Admin() {
       content_en: 'Your testimonial here...',
       rating: 5,
       display_order: testimonials.length + 1,
+      status: 'approved',
     });
     if (error) toast.error('Erreur'); else { toast.success('Témoignage ajouté'); fetchData(); }
   };
@@ -357,10 +369,15 @@ export default function Admin() {
     );
   }
 
+  // Filter testimonials by status
+  const pendingTestimonials = testimonials.filter(t => t.status === 'pending');
+  const approvedTestimonials = testimonials.filter(t => t.status === 'approved');
+
   const tabs: { id: Tab; label: string; icon: React.ReactNode; count?: number }[] = [
     { id: 'appointments', label: 'En attente', icon: <Clock className="w-5 h-5" />, count: pendingAppointments.length },
     { id: 'history', label: 'Historique', icon: <History className="w-5 h-5" />, count: historyAppointments.length },
     { id: 'contacts', label: 'Messages', icon: <Mail className="w-5 h-5" />, count: contacts.length },
+    { id: 'pending-testimonials', label: 'Avis en attente', icon: <Star className="w-5 h-5" />, count: pendingTestimonials.length },
     { id: 'content', label: 'Contenu', icon: <Settings className="w-5 h-5" /> },
     { id: 'services', label: 'Services', icon: <FileText className="w-5 h-5" /> },
     { id: 'testimonials', label: 'Témoignages', icon: <Star className="w-5 h-5" /> },
@@ -633,13 +650,67 @@ export default function Admin() {
               </div>
             )}
 
-            {/* Testimonials Tab */}
+            {/* Pending Testimonials Tab */}
+            {activeTab === 'pending-testimonials' && (
+              <div className="space-y-4">
+                <h2 className="text-lg font-semibold text-txt-primary mb-4">Témoignages en attente de validation</h2>
+                {pendingTestimonials.length === 0 ? (
+                  <div className="text-center py-12 text-txt-secondary">Aucun témoignage en attente</div>
+                ) : pendingTestimonials.map((t) => (
+                  <div key={t.id} className="bg-surface rounded-2xl p-6 border border-border">
+                    <div className="flex flex-col md:flex-row md:items-start justify-between gap-4">
+                      <div className="flex-1">
+                        <div className="flex items-center gap-3 mb-2">
+                          <span className="font-semibold text-txt-primary">{t.name}</span>
+                          <span className="px-2 py-1 rounded-full text-xs font-medium bg-yellow-500/10 text-yellow-600">
+                            En attente
+                          </span>
+                        </div>
+                        <p className="text-sm text-brand-red mb-2">{t.location_fr}</p>
+                        <p className="text-sm text-txt-secondary">"{t.content_fr}"</p>
+                        <div className="flex gap-0.5 mt-2">
+                          {[...Array(t.rating || 5)].map((_, i) => (
+                            <Star key={i} className="w-4 h-4 text-accent fill-current" />
+                          ))}
+                        </div>
+                      </div>
+                      <div className="flex gap-2">
+                        <button 
+                          onClick={() => approveTestimonial(t.id)} 
+                          className="flex items-center gap-1 px-3 py-2 bg-green-500/10 text-green-500 rounded-lg hover:bg-green-500/20"
+                        >
+                          <CheckCircle className="w-4 h-4" />
+                          <span className="hidden sm:inline">Approuver</span>
+                        </button>
+                        <button 
+                          onClick={() => rejectTestimonial(t.id)} 
+                          className="flex items-center gap-1 px-3 py-2 bg-red-500/10 text-red-500 rounded-lg hover:bg-red-500/20"
+                        >
+                          <XCircle className="w-4 h-4" />
+                          <span className="hidden sm:inline">Rejeter</span>
+                        </button>
+                        <button 
+                          onClick={() => deleteTestimonial(t.id)} 
+                          className="px-3 py-2 bg-gray-500/10 text-gray-500 rounded-lg hover:bg-gray-500/20"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* Testimonials Tab (Approved only) */}
             {activeTab === 'testimonials' && (
               <div className="space-y-4">
                 <button onClick={addTestimonial} className="w-full py-4 border-2 border-dashed border-border rounded-2xl text-txt-secondary hover:border-brand-red hover:text-brand-red transition-colors flex items-center justify-center gap-2">
                   <Plus className="w-5 h-5" /> Ajouter un témoignage
                 </button>
-                {testimonials.map((t) => (
+                {approvedTestimonials.length === 0 ? (
+                  <div className="text-center py-12 text-txt-secondary">Aucun témoignage approuvé</div>
+                ) : approvedTestimonials.map((t) => (
                   <div key={t.id} className="bg-surface rounded-2xl p-6 border border-border">
                     {editingContent === t.id ? (
                       <div className="space-y-4">
@@ -658,7 +729,10 @@ export default function Admin() {
                     ) : (
                       <div className="flex justify-between items-start">
                         <div>
-                          <p className="font-semibold text-txt-primary">{t.name}</p>
+                          <div className="flex items-center gap-2 mb-1">
+                            <p className="font-semibold text-txt-primary">{t.name}</p>
+                            <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-green-500/10 text-green-500">Approuvé</span>
+                          </div>
                           <p className="text-sm text-brand-red">{t.location_fr}</p>
                           <p className="text-sm text-txt-secondary mt-2">"{t.content_fr}"</p>
                         </div>
