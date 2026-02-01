@@ -85,90 +85,90 @@ export default function LegalCompliance({ language }: LegalComplianceProps) {
   };
 
   return (
-    <section className="py-24 bg-background">
+    <section className="py-12 sm:py-16 lg:py-24 bg-background">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div 
-          className="text-center mb-16"
+          className="text-center mb-8 sm:mb-10 lg:mb-16"
           {...fadeInUp}
         >
-          <span className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-semibold mb-4 border border-primary/20">
+          <span className="inline-block px-3 sm:px-4 py-1 sm:py-1.5 rounded-full bg-primary/10 text-primary text-xs sm:text-sm font-semibold mb-3 sm:mb-4 border border-primary/20">
             {content[language].sectionLabel}
           </span>
-          <h2 className="text-3xl sm:text-4xl font-heading font-semibold text-txt-primary mb-4">
+          <h2 className="text-xl sm:text-2xl lg:text-4xl font-heading font-semibold text-txt-primary mb-2 sm:mb-3 lg:mb-4 px-2">
             {content[language].title}
           </h2>
-          <p className="text-txt-secondary text-lg max-w-3xl mx-auto">
+          <p className="text-txt-secondary text-xs sm:text-sm lg:text-lg max-w-3xl mx-auto px-4">
             {content[language].subtitle}
           </p>
         </motion.div>
 
         {/* Main content card */}
         <motion.div 
-          className="bg-surface border border-border rounded-2xl p-8 lg:p-10 mb-12"
+          className="bg-surface border border-border rounded-xl sm:rounded-2xl p-5 sm:p-6 lg:p-10 mb-6 sm:mb-8 lg:mb-12"
           {...fadeInUp}
           transition={{ duration: 0.5, delay: 0.1 }}
         >
-          <div className="flex items-start gap-5 mb-8 pb-8 border-b border-border">
-            <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
-              <Award className="w-7 h-7 text-primary" />
+          <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-5 mb-6 sm:mb-8 pb-6 sm:pb-8 border-b border-border">
+            <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
+              <Award className="w-6 h-6 sm:w-7 sm:h-7 text-primary" />
             </div>
             <div>
-              <h3 className="font-heading font-semibold text-xl text-txt-primary mb-2">CICC Member</h3>
-              <p className="text-txt-secondary leading-relaxed">{content[language].description}</p>
+              <h3 className="font-heading font-semibold text-base sm:text-lg lg:text-xl text-txt-primary mb-1 sm:mb-2">CICC Member</h3>
+              <p className="text-txt-secondary text-xs sm:text-sm lg:text-base leading-relaxed">{content[language].description}</p>
             </div>
           </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
             {content[language].guarantees.map((item, index) => (
               <motion.div
                 key={item.title}
-                className="p-5 rounded-xl bg-background border border-border hover:border-primary/20 transition-colors"
+                className="p-3 sm:p-4 lg:p-5 rounded-lg sm:rounded-xl bg-background border border-border hover:border-primary/20 transition-colors"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.1 + index * 0.1 }}
               >
-                <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
-                  <item.icon className="w-5 h-5 text-primary" />
+                <div className="w-8 h-8 sm:w-9 sm:h-9 lg:w-10 lg:h-10 rounded-lg bg-primary/10 flex items-center justify-center mb-2 sm:mb-3 lg:mb-4">
+                  <item.icon className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
                 </div>
-                <h4 className="font-semibold text-txt-primary mb-2">{item.title}</h4>
-                <p className="text-sm text-txt-secondary">{item.description}</p>
+                <h4 className="font-semibold text-txt-primary text-xs sm:text-sm mb-1 sm:mb-2">{item.title}</h4>
+                <p className="text-[10px] sm:text-xs lg:text-sm text-txt-secondary leading-relaxed">{item.description}</p>
               </motion.div>
             ))}
           </div>
         </motion.div>
 
         {/* Bottom cards */}
-        <div className="grid lg:grid-cols-2 gap-6">
+        <div className="grid sm:grid-cols-2 gap-4 sm:gap-6">
           <motion.div 
-            className="bg-surface border border-border rounded-xl p-6"
+            className="bg-surface border border-border rounded-xl p-4 sm:p-5 lg:p-6"
             {...fadeInUp}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            <h3 className="font-heading font-semibold text-lg text-txt-primary mb-3">
+            <h3 className="font-heading font-semibold text-sm sm:text-base lg:text-lg text-txt-primary mb-2 sm:mb-3">
               {content[language].verifyTitle}
             </h3>
-            <p className="text-txt-secondary text-sm mb-5">{content[language].verifyDescription}</p>
+            <p className="text-txt-secondary text-xs sm:text-sm mb-4 sm:mb-5">{content[language].verifyDescription}</p>
             <a
               href="https://college-ic.ca/protecting-the-public/find-an-immigration-consultant"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary text-primary-foreground rounded-lg font-medium text-sm hover:bg-primary/90 transition-colors"
+              className="inline-flex items-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 bg-primary text-primary-foreground rounded-lg font-medium text-xs sm:text-sm hover:bg-primary/90 transition-colors"
             >
               {content[language].verifyButton}
-              <ExternalLink size={14} />
+              <ExternalLink size={12} className="sm:w-[14px] sm:h-[14px]" />
             </a>
           </motion.div>
 
           <motion.div 
-            className="bg-accent/5 border border-accent/20 rounded-xl p-6"
+            className="bg-accent/5 border border-accent/20 rounded-xl p-4 sm:p-5 lg:p-6"
             {...fadeInUp}
             transition={{ duration: 0.5, delay: 0.3 }}
           >
-            <h3 className="font-heading font-semibold text-lg text-txt-primary mb-3">
+            <h3 className="font-heading font-semibold text-sm sm:text-base lg:text-lg text-txt-primary mb-2 sm:mb-3">
               {content[language].importantTitle}
             </h3>
-            <p className="text-txt-secondary text-sm leading-relaxed">{content[language].importantText}</p>
+            <p className="text-txt-secondary text-xs sm:text-sm leading-relaxed">{content[language].importantText}</p>
           </motion.div>
         </div>
       </div>
