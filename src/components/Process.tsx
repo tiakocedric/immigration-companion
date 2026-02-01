@@ -96,7 +96,7 @@ export default function Process({ language }: ProcessProps) {
   const t = content[language];
 
   return (
-    <section id="process" className="py-16 sm:py-20 lg:py-24 bg-muted/30 relative overflow-hidden">
+    <section id="process" className="py-12 sm:py-16 lg:py-24 bg-muted/30 relative overflow-hidden">
       {/* Decorative elements */}
       <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-border to-transparent" />
       <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-border to-transparent" />
@@ -107,15 +107,15 @@ export default function Process({ language }: ProcessProps) {
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
           variants={fadeInUp}
-          className="text-center mb-10 sm:mb-12 lg:mb-16"
+          className="text-center mb-8 sm:mb-10 lg:mb-16"
         >
           <span className="inline-block text-primary font-medium text-xs sm:text-sm uppercase tracking-wider mb-2 sm:mb-3">
             {t.subtitle}
           </span>
-          <h2 className="font-heading text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-3 sm:mb-4">
+          <h2 className="font-heading text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-foreground mb-2 sm:mb-3 lg:mb-4 px-2">
             {t.title}
           </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto text-sm sm:text-base lg:text-lg px-4">
+          <p className="text-muted-foreground max-w-2xl mx-auto text-xs sm:text-sm lg:text-base px-4">
             {t.description}
           </p>
         </motion.div>
@@ -127,10 +127,11 @@ export default function Process({ language }: ProcessProps) {
           variants={staggerContainer}
           className="relative"
         >
-          {/* Connection line - desktop */}
+          {/* Connection line - desktop only */}
           <div className="hidden lg:block absolute top-16 left-[10%] right-[10%] h-0.5 bg-gradient-to-r from-primary/20 via-primary to-primary/20" />
           
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6 lg:gap-4">
+          {/* Mobile: 2 columns, Tablet: 3 columns, Desktop: 5 columns */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4 lg:gap-6">
             {t.steps.map((step, index) => {
               const Icon = step.icon;
               return (
@@ -140,31 +141,24 @@ export default function Process({ language }: ProcessProps) {
                   className="relative flex flex-col items-center text-center group"
                 >
                   {/* Step number */}
-                  <div className="absolute -top-1 -right-1 sm:-top-2 sm:-right-2 md:top-0 md:right-auto md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2 w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-primary text-primary-foreground text-[10px] sm:text-xs font-bold flex items-center justify-center z-10">
+                  <div className="absolute -top-1 -right-1 w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-primary text-primary-foreground text-[10px] sm:text-xs font-bold flex items-center justify-center z-10">
                     {index + 1}
                   </div>
                   
                   {/* Icon container */}
-                  <div className="relative mb-3 sm:mb-4 lg:mb-6">
-                    <div className="w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 rounded-xl sm:rounded-2xl bg-card border border-border shadow-lg flex items-center justify-center group-hover:border-primary group-hover:shadow-primary/10 transition-all duration-300">
+                  <div className="relative mb-2 sm:mb-3 lg:mb-5">
+                    <div className="w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 rounded-xl bg-card border border-border shadow-md flex items-center justify-center group-hover:border-primary group-hover:shadow-primary/10 transition-all duration-300">
                       <Icon className="w-5 h-5 sm:w-6 sm:h-6 lg:w-7 lg:h-7 text-primary" />
                     </div>
-                    {/* Pulse effect on hover */}
-                    <div className="absolute inset-0 rounded-xl sm:rounded-2xl bg-primary/20 scale-0 group-hover:scale-110 opacity-0 group-hover:opacity-100 transition-all duration-500" />
                   </div>
                   
                   {/* Content */}
-                  <h3 className="font-heading font-semibold text-foreground mb-1 sm:mb-2 text-xs sm:text-sm lg:text-lg leading-tight">
+                  <h3 className="font-heading font-semibold text-foreground mb-1 text-[11px] sm:text-xs lg:text-base leading-tight px-1">
                     {step.title}
                   </h3>
-                  <p className="text-muted-foreground text-[10px] sm:text-xs lg:text-sm leading-relaxed max-w-[140px] sm:max-w-[180px] lg:max-w-[200px] hidden sm:block">
+                  <p className="text-muted-foreground text-[9px] sm:text-[10px] lg:text-sm leading-relaxed hidden sm:block max-w-[120px] sm:max-w-[140px] lg:max-w-[180px]">
                     {step.description}
                   </p>
-                  
-                  {/* Mobile connector - only between rows on mobile */}
-                  {index < t.steps.length - 1 && index !== 1 && index !== 3 && (
-                    <div className="lg:hidden w-0.5 h-4 sm:h-6 lg:h-8 bg-gradient-to-b from-primary to-primary/20 mt-3 sm:mt-4 lg:mt-6 hidden sm:block" />
-                  )}
                 </motion.div>
               );
             })}

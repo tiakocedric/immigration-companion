@@ -91,23 +91,23 @@ export default function TestimonialForm({ language }: TestimonialFormProps) {
 
   if (isSubmitted) {
     return (
-      <section className="py-16 sm:py-20 lg:py-24 bg-background">
+      <section className="py-12 sm:py-16 lg:py-24 bg-background">
         <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="bg-surface rounded-2xl p-8 sm:p-12 border border-border text-center"
+            className="bg-surface rounded-xl sm:rounded-2xl p-6 sm:p-8 lg:p-12 border border-border text-center"
           >
-            <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-6" />
-            <h3 className="text-2xl font-heading font-semibold text-txt-primary mb-4">
+            <CheckCircle className="w-12 h-12 sm:w-16 sm:h-16 text-primary mx-auto mb-4 sm:mb-6" />
+            <h3 className="text-lg sm:text-xl lg:text-2xl font-heading font-semibold text-txt-primary mb-2 sm:mb-4">
               {content[language].successTitle}
             </h3>
-            <p className="text-txt-secondary mb-8">
+            <p className="text-txt-secondary text-sm sm:text-base mb-6 sm:mb-8">
               {content[language].successMessage}
             </p>
             <button
               onClick={handleReset}
-              className="px-6 py-3 bg-primary text-primary-foreground rounded-xl font-semibold hover:bg-primary/90 transition-colors"
+              className="px-5 sm:px-6 py-2.5 sm:py-3 bg-primary text-primary-foreground rounded-lg sm:rounded-xl font-semibold text-sm sm:text-base hover:bg-primary/90 transition-colors"
             >
               {content[language].submitAnother}
             </button>
@@ -118,28 +118,28 @@ export default function TestimonialForm({ language }: TestimonialFormProps) {
   }
 
   return (
-    <section id="testimonial-form" className="py-16 sm:py-20 lg:py-24 bg-background">
+    <section id="testimonial-form" className="py-12 sm:py-16 lg:py-24 bg-background">
       <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
-          className="text-center mb-8 sm:mb-10"
+          className="text-center mb-6 sm:mb-8 lg:mb-10"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
         >
-          <span className="inline-block px-3 sm:px-4 py-1 sm:py-1.5 rounded-full bg-primary/10 text-primary text-xs sm:text-sm font-semibold mb-3 sm:mb-4 border border-primary/20">
+          <span className="inline-block px-3 py-1 sm:py-1.5 rounded-full bg-primary/10 text-primary text-xs sm:text-sm font-semibold mb-2 sm:mb-3 border border-primary/20">
             {content[language].sectionLabel}
           </span>
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-heading font-semibold text-txt-primary mb-3 sm:mb-4">
+          <h2 className="text-xl sm:text-2xl lg:text-3xl font-heading font-semibold text-txt-primary mb-2 sm:mb-3">
             {content[language].title}
           </h2>
-          <p className="text-txt-secondary text-sm sm:text-base lg:text-lg">
+          <p className="text-txt-secondary text-xs sm:text-sm lg:text-base px-4">
             {content[language].subtitle}
           </p>
         </motion.div>
 
         <motion.form
           onSubmit={handleSubmit}
-          className="bg-surface rounded-2xl p-6 sm:p-8 border border-border space-y-6"
+          className="bg-surface rounded-xl sm:rounded-2xl p-5 sm:p-6 lg:p-8 border border-border space-y-4 sm:space-y-5 lg:space-y-6"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -152,7 +152,7 @@ export default function TestimonialForm({ language }: TestimonialFormProps) {
               value={formData.name}
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
               placeholder={content[language].namePlaceholder}
-              className="w-full px-4 py-3 bg-background border border-border rounded-xl text-txt-primary placeholder:text-txt-secondary/50 focus:outline-none focus:ring-2 focus:ring-primary/50"
+              className="w-full px-3 sm:px-4 py-2.5 sm:py-3 bg-background border border-border rounded-lg sm:rounded-xl text-sm sm:text-base text-txt-primary placeholder:text-txt-secondary/50 focus:outline-none focus:ring-2 focus:ring-primary/50"
               required
             />
           </div>
@@ -164,25 +164,25 @@ export default function TestimonialForm({ language }: TestimonialFormProps) {
               value={formData.location}
               onChange={(e) => setFormData({ ...formData, location: e.target.value })}
               placeholder={content[language].locationPlaceholder}
-              className="w-full px-4 py-3 bg-background border border-border rounded-xl text-txt-primary placeholder:text-txt-secondary/50 focus:outline-none focus:ring-2 focus:ring-primary/50"
+              className="w-full px-3 sm:px-4 py-2.5 sm:py-3 bg-background border border-border rounded-lg sm:rounded-xl text-sm sm:text-base text-txt-primary placeholder:text-txt-secondary/50 focus:outline-none focus:ring-2 focus:ring-primary/50"
             />
           </div>
 
           {/* Rating */}
           <div>
-            <label className="block text-sm font-medium text-txt-secondary mb-2">
+            <label className="block text-xs sm:text-sm font-medium text-txt-secondary mb-2">
               {content[language].ratingLabel}
             </label>
-            <div className="flex gap-1">
+            <div className="flex gap-0.5 sm:gap-1">
               {[1, 2, 3, 4, 5].map((star) => (
                 <button
                   key={star}
                   type="button"
                   onClick={() => setFormData({ ...formData, rating: star })}
-                  className="p-1 transition-transform hover:scale-110"
+                  className="p-0.5 sm:p-1 transition-transform hover:scale-110"
                 >
                   <Star
-                    className={`w-8 h-8 ${
+                    className={`w-6 h-6 sm:w-8 sm:h-8 ${
                       star <= formData.rating
                         ? 'text-accent fill-current'
                         : 'text-border'
@@ -199,8 +199,8 @@ export default function TestimonialForm({ language }: TestimonialFormProps) {
               value={formData.content}
               onChange={(e) => setFormData({ ...formData, content: e.target.value })}
               placeholder={content[language].contentPlaceholder}
-              rows={5}
-              className="w-full px-4 py-3 bg-background border border-border rounded-xl text-txt-primary placeholder:text-txt-secondary/50 focus:outline-none focus:ring-2 focus:ring-primary/50 resize-none"
+              rows={4}
+              className="w-full px-3 sm:px-4 py-2.5 sm:py-3 bg-background border border-border rounded-lg sm:rounded-xl text-sm sm:text-base text-txt-primary placeholder:text-txt-secondary/50 focus:outline-none focus:ring-2 focus:ring-primary/50 resize-none"
               required
             />
           </div>
@@ -209,16 +209,16 @@ export default function TestimonialForm({ language }: TestimonialFormProps) {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full py-4 bg-primary text-primary-foreground rounded-xl font-semibold hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+            className="w-full py-3 sm:py-4 bg-primary text-primary-foreground rounded-lg sm:rounded-xl font-semibold text-sm sm:text-base hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
           >
             {isSubmitting ? (
               <>
-                <Loader2 className="w-5 h-5 animate-spin" />
+                <Loader2 className="w-4 h-4 sm:w-5 sm:h-5 animate-spin" />
                 {content[language].submitting}
               </>
             ) : (
               <>
-                <Send className="w-5 h-5" />
+                <Send className="w-4 h-4 sm:w-5 sm:h-5" />
                 {content[language].submitButton}
               </>
             )}
