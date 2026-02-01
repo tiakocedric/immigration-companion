@@ -6,6 +6,7 @@ import About from '@/components/About';
 import Services from '@/components/Services';
 import Process from '@/components/Process';
 import Testimonials from '@/components/Testimonials';
+import TestimonialForm from '@/components/TestimonialForm';
 import FAQ from '@/components/FAQ';
 import AppointmentForm from '@/components/AppointmentForm';
 import ContactForm from '@/components/ContactForm';
@@ -24,6 +25,7 @@ const Index = () => {
       <Services language={language} />
       <Process language={language} />
       <Testimonials language={language} />
+      <TestimonialForm language={language} />
       <FAQ language={language} />
       <AppointmentForm language={language} />
       <ContactForm language={language} />

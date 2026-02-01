@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Star, ChevronLeft, ChevronRight, Quote } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useSiteContent, Testimonial } from '@/hooks/useSiteContent';
 
 interface TestimonialsProps {
   language: 'fr' | 'en';
@@ -8,6 +9,7 @@ interface TestimonialsProps {
 
 export default function Testimonials({ language }: TestimonialsProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const { testimonials, isLoading } = useSiteContent();
 
   const content = {
     fr: {
@@ -22,41 +24,17 @@ export default function Testimonials({ language }: TestimonialsProps) {
     },
   };
 
-  const testimonials = [
-    {
-      id: 1,
-      name: 'Marie Dubois',
-      country: 'France',
-      service: language === 'fr' ? 'Résidence Permanente' : 'Permanent Residence',
-      content: language === 'fr' 
-        ? "Service exceptionnel! M. Mimb m'a guidé tout au long du processus de résidence permanente. Grâce à son expertise, ma famille et moi vivons maintenant à Montréal."
-        : "Exceptional service! Mr. Mimb guided me throughout the permanent residence process. Thanks to his expertise, my family and I now live in Montreal.",
-      rating: 5,
-    },
-    {
-      id: 2,
-      name: 'Jean-Pierre Kamga',
-      country: 'Cameroun',
-      service: language === 'fr' ? 'Permis de travail' : 'Work Permit',
-      content: language === 'fr'
-        ? "Professionnel, disponible et très compétent. M. Mimb a traité mon dossier avec une rigueur exemplaire. Mon permis de travail a été approuvé en un temps record."
-        : "Professional, available and very competent. Mr. Mimb handled my file with exemplary rigor. My work permit was approved in record time.",
-      rating: 5,
-    },
-    {
-      id: 3,
-      name: 'Sofia Martinez',
-      country: 'Mexique',
-      service: language === 'fr' ? 'Permis d\'études' : 'Study Permit',
-      content: language === 'fr'
-        ? "Grâce à l'accompagnement de M. Mimb, j'ai pu obtenir mon permis d'études et réaliser mon rêve d'étudier au Canada. Un consultant de confiance!"
-        : "Thanks to Mr. Mimb's support, I was able to obtain my study permit and fulfill my dream of studying in Canada. A trusted consultant!",
-      rating: 5,
-    },
-  ];
+  // Filter only active testimonials (approved ones will be fetched due to RLS)
+  const activeTestimonials = testimonials?.filter(t => t.is_active) || [];
 
-  const nextTestimonial = () => setCurrentIndex((prev) => (prev + 1) % testimonials.length);
-  const prevTestimonial = () => setCurrentIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length);
+  const nextTestimonial = () => setCurrentIndex((prev) => (prev + 1) % activeTestimonials.length);
+  const prevTestimonial = () => setCurrentIndex((prev) => (prev - 1 + activeTestimonials.length) % activeTestimonials.length);
+
+  if (isLoading || activeTestimonials.length === 0) {
+    return null;
+  }
+
+  const currentTestimonial = activeTestimonials[currentIndex];
 
   return (
     <section id="testimonials" className="py-16 sm:py-20 lg:py-24 bg-section-gradient">
@@ -88,20 +66,19 @@ export default function Testimonials({ language }: TestimonialsProps) {
             >
               <Quote className="w-7 h-7 sm:w-8 sm:h-8 lg:w-10 lg:h-10 text-primary/20 mb-4 sm:mb-5 lg:mb-6" />
               <p className="text-base sm:text-lg lg:text-2xl text-txt-primary leading-relaxed mb-5 sm:mb-6 lg:mb-8">
-                "{testimonials[currentIndex].content}"
+                "{language === 'fr' ? currentTestimonial.content_fr : currentTestimonial.content_en}"
               </p>
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
                 <div>
                   <p className="font-heading font-semibold text-base sm:text-lg text-txt-primary">
-                    {testimonials[currentIndex].name}
+                    {currentTestimonial.name}
                   </p>
-                  <p className="text-txt-secondary text-xs sm:text-sm">{testimonials[currentIndex].country}</p>
-                  <span className="inline-block mt-1.5 sm:mt-2 px-2 sm:px-3 py-0.5 sm:py-1 bg-primary/10 text-primary text-[10px] sm:text-xs font-semibold rounded-md">
-                    {testimonials[currentIndex].service}
-                  </span>
+                  <p className="text-txt-secondary text-xs sm:text-sm">
+                    {language === 'fr' ? currentTestimonial.location_fr : currentTestimonial.location_en}
+                  </p>
                 </div>
                 <div className="flex gap-0.5 sm:gap-1">
-                  {[...Array(testimonials[currentIndex].rating)].map((_, i) => (
+                  {[...Array(currentTestimonial.rating || 5)].map((_, i) => (
                     <Star key={i} className="w-4 h-4 sm:w-5 sm:h-5 text-accent fill-current" />
                   ))}
                 </div>
@@ -114,7 +91,7 @@ export default function Testimonials({ language }: TestimonialsProps) {
               <ChevronLeft size={18} className="sm:w-5 sm:h-5" />
             </button>
             <div className="flex items-center gap-1.5 sm:gap-2">
-              {testimonials.map((_, index) => (
+              {activeTestimonials.map((_, index) => (
                 <button key={index} onClick={() => setCurrentIndex(index)} className={`w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full transition-colors ${index === currentIndex ? 'bg-primary' : 'bg-border'}`} />
               ))}
             </div>
