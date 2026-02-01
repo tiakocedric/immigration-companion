@@ -23,21 +23,19 @@ import {
   Plus,
   Edit,
   Save,
-  X
+  X,
+  XCircle,
+  CalendarClock,
+  History
 } from 'lucide-react';
-
-interface Appointment {
-  id: string;
-  name: string;
-  email: string;
-  phone: string;
-  service_type: string;
-  preferred_date: string;
-  preferred_time: string;
-  message: string;
-  status: string;
-  created_at: string;
-}
+import { 
+  validateAppointment, 
+  refuseAppointment, 
+  proposeNewDate, 
+  getStatusLabel,
+  type AppointmentStatus,
+  type AppointmentData
+} from '@/lib/appointmentService';
 
 interface ContactSubmission {
   id: string;
@@ -90,13 +88,13 @@ interface FAQ {
   is_active: boolean;
 }
 
-type Tab = 'appointments' | 'contacts' | 'content' | 'services' | 'testimonials' | 'faq' | 'photos';
+type Tab = 'appointments' | 'history' | 'contacts' | 'content' | 'services' | 'testimonials' | 'faq' | 'photos';
 
 export default function Admin() {
   const { user, isAdmin, isLoading, signOut } = useAuth();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<Tab>('appointments');
-  const [appointments, setAppointments] = useState<Appointment[]>([]);
+  const [appointments, setAppointments] = useState<AppointmentData[]>([]);
   const [contacts, setContacts] = useState<ContactSubmission[]>([]);
   const [siteContent, setSiteContent] = useState<SiteContent[]>([]);
   const [services, setServices] = useState<Service[]>([]);
@@ -107,6 +105,9 @@ export default function Admin() {
   const [photos, setPhotos] = useState<{name: string, url: string}[]>([]);
   const [editingContent, setEditingContent] = useState<string | null>(null);
   const [editForm, setEditForm] = useState<any>({});
+  const [proposalModal, setProposalModal] = useState<{ open: boolean; appointmentId: string | null }>({ open: false, appointmentId: null });
+  const [proposalForm, setProposalForm] = useState({ date: '', time: '' });
+  const [processingAction, setProcessingAction] = useState<string | null>(null);
 
   useEffect(() => {
     if (!isLoading && !user) {
@@ -132,7 +133,12 @@ export default function Admin() {
       supabase.from('faq').select('*').order('display_order'),
     ]);
 
-    if (appointmentsRes.data) setAppointments(appointmentsRes.data);
+    if (appointmentsRes.data) {
+      setAppointments(appointmentsRes.data.map(apt => ({
+        ...apt,
+        status_enum: apt.status_enum || 'EN_ATTENTE'
+      })) as AppointmentData[]);
+    }
     if (contactsRes.data) setContacts(contactsRes.data);
     if (contentRes.data) setSiteContent(contentRes.data);
     if (servicesRes.data) setServices(servicesRes.data);
@@ -152,9 +158,47 @@ export default function Admin() {
     }
   };
 
-  const updateAppointmentStatus = async (id: string, status: string) => {
-    const { error } = await supabase.from('appointments').update({ status }).eq('id', id);
-    if (error) toast.error('Erreur'); else { toast.success('Mis à jour'); fetchData(); }
+  const handleValidate = async (id: string) => {
+    setProcessingAction(id);
+    const result = await validateAppointment(id);
+    if (result.success) {
+      toast.success('Rendez-vous validé et email envoyé');
+      fetchData();
+    } else {
+      toast.error('Erreur lors de la validation');
+    }
+    setProcessingAction(null);
+  };
+
+  const handleRefuse = async (id: string) => {
+    setProcessingAction(id);
+    const result = await refuseAppointment(id);
+    if (result.success) {
+      toast.success('Rendez-vous refusé et email envoyé');
+      fetchData();
+    } else {
+      toast.error('Erreur lors du refus');
+    }
+    setProcessingAction(null);
+  };
+
+  const handlePropose = async () => {
+    if (!proposalModal.appointmentId || !proposalForm.date || !proposalForm.time) {
+      toast.error('Veuillez remplir tous les champs');
+      return;
+    }
+    
+    setProcessingAction(proposalModal.appointmentId);
+    const result = await proposeNewDate(proposalModal.appointmentId, proposalForm.date, proposalForm.time);
+    if (result.success) {
+      toast.success('Proposition envoyée par email');
+      setProposalModal({ open: false, appointmentId: null });
+      setProposalForm({ date: '', time: '' });
+      fetchData();
+    } else {
+      toast.error('Erreur lors de l\'envoi de la proposition');
+    }
+    setProcessingAction(null);
   };
 
   const updateContactStatus = async (id: string, status: string) => {
@@ -261,6 +305,36 @@ export default function Admin() {
     navigate('/');
   };
 
+  // Filter appointments by status
+  const pendingAppointments = appointments.filter(apt => 
+    apt.status_enum === 'EN_ATTENTE' || (!apt.status_enum && apt.status === 'pending')
+  );
+  
+  const historyAppointments = appointments.filter(apt => 
+    apt.status_enum === 'VALIDE' || 
+    apt.status_enum === 'REFUSE' || 
+    apt.status_enum === 'PROPOSITION_ENVOYEE' ||
+    apt.status_enum === 'PROPOSITION_ACCEPTEE' ||
+    (apt.status !== 'pending' && !apt.status_enum)
+  );
+
+  const formatPhone = (apt: AppointmentData) => {
+    if (apt.country_code && apt.phone_local) {
+      return `${apt.country_code} ${apt.phone_local}`;
+    }
+    return apt.phone || '-';
+  };
+
+  const timeSlots = [
+    '09:00 - 10:00',
+    '10:00 - 11:00',
+    '11:00 - 12:00',
+    '13:00 - 14:00',
+    '14:00 - 15:00',
+    '15:00 - 16:00',
+    '16:00 - 17:00',
+  ];
+
   if (isLoading) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
@@ -284,7 +358,8 @@ export default function Admin() {
   }
 
   const tabs: { id: Tab; label: string; icon: React.ReactNode; count?: number }[] = [
-    { id: 'appointments', label: 'Rendez-vous', icon: <Calendar className="w-5 h-5" />, count: appointments.length },
+    { id: 'appointments', label: 'En attente', icon: <Clock className="w-5 h-5" />, count: pendingAppointments.length },
+    { id: 'history', label: 'Historique', icon: <History className="w-5 h-5" />, count: historyAppointments.length },
     { id: 'contacts', label: 'Messages', icon: <Mail className="w-5 h-5" />, count: contacts.length },
     { id: 'content', label: 'Contenu', icon: <Settings className="w-5 h-5" /> },
     { id: 'services', label: 'Services', icon: <FileText className="w-5 h-5" /> },
@@ -292,6 +367,85 @@ export default function Admin() {
     { id: 'faq', label: 'FAQ', icon: <HelpCircle className="w-5 h-5" /> },
     { id: 'photos', label: 'Photos', icon: <Image className="w-5 h-5" /> },
   ];
+
+  const renderAppointmentCard = (apt: AppointmentData, showActions: boolean = true) => {
+    const statusInfo = getStatusLabel(apt.status_enum || 'EN_ATTENTE');
+    const isProcessing = processingAction === apt.id;
+
+    return (
+      <div key={apt.id} className="bg-surface rounded-2xl p-6 border border-border">
+        <div className="flex flex-col md:flex-row md:items-start justify-between gap-4">
+          <div className="flex-1 space-y-2">
+            <div className="flex items-center gap-3 flex-wrap">
+              <User className="w-5 h-5 text-brand-red" />
+              <span className="font-semibold text-txt-primary">{apt.name}</span>
+              <span className={`px-2 py-1 rounded-full text-xs font-medium ${statusInfo.color}`}>
+                {statusInfo.label}
+              </span>
+            </div>
+            <div className="text-sm text-txt-secondary space-y-1">
+              <p><Mail className="w-4 h-4 inline mr-2" />{apt.email}</p>
+              <p><Phone className="w-4 h-4 inline mr-2" />{formatPhone(apt)}</p>
+              <p><Calendar className="w-4 h-4 inline mr-2" />{apt.preferred_date} à {apt.preferred_time}</p>
+              <p><strong>Service:</strong> {apt.service_type}</p>
+              {apt.message && <p><MessageSquare className="w-4 h-4 inline mr-2" />{apt.message}</p>}
+              {apt.proposed_date && (
+                <p className="text-blue-500">
+                  <CalendarClock className="w-4 h-4 inline mr-2" />
+                  <strong>Proposition:</strong> {apt.proposed_date} à {apt.proposed_time}
+                </p>
+              )}
+            </div>
+          </div>
+          
+          {showActions && apt.status_enum === 'EN_ATTENTE' && (
+            <div className="flex gap-2 flex-wrap">
+              <button 
+                onClick={() => handleValidate(apt.id)} 
+                disabled={isProcessing}
+                className="flex items-center gap-1 px-3 py-2 bg-green-500/10 text-green-500 rounded-lg hover:bg-green-500/20 disabled:opacity-50"
+              >
+                {isProcessing ? <Loader2 className="w-4 h-4 animate-spin" /> : <CheckCircle className="w-4 h-4" />}
+                <span className="hidden sm:inline">Valider</span>
+              </button>
+              <button 
+                onClick={() => handleRefuse(apt.id)}
+                disabled={isProcessing}
+                className="flex items-center gap-1 px-3 py-2 bg-red-500/10 text-red-500 rounded-lg hover:bg-red-500/20 disabled:opacity-50"
+              >
+                {isProcessing ? <Loader2 className="w-4 h-4 animate-spin" /> : <XCircle className="w-4 h-4" />}
+                <span className="hidden sm:inline">Refuser</span>
+              </button>
+              <button 
+                onClick={() => setProposalModal({ open: true, appointmentId: apt.id })}
+                disabled={isProcessing}
+                className="flex items-center gap-1 px-3 py-2 bg-blue-500/10 text-blue-500 rounded-lg hover:bg-blue-500/20 disabled:opacity-50"
+              >
+                <CalendarClock className="w-4 h-4" />
+                <span className="hidden sm:inline">Proposer</span>
+              </button>
+              <button 
+                onClick={() => deleteAppointment(apt.id)} 
+                disabled={isProcessing}
+                className="px-3 py-2 bg-gray-500/10 text-gray-500 rounded-lg hover:bg-gray-500/20 disabled:opacity-50"
+              >
+                <Trash2 className="w-4 h-4" />
+              </button>
+            </div>
+          )}
+          
+          {!showActions && (
+            <button 
+              onClick={() => deleteAppointment(apt.id)} 
+              className="px-3 py-2 bg-red-500/10 text-red-500 rounded-lg hover:bg-red-500/20"
+            >
+              <Trash2 className="w-4 h-4" />
+            </button>
+          )}
+        </div>
+      </div>
+    );
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -330,48 +484,23 @@ export default function Admin() {
           </div>
         ) : (
           <>
-            {/* Appointments Tab */}
+            {/* Pending Appointments Tab */}
             {activeTab === 'appointments' && (
               <div className="space-y-4">
-                {appointments.length === 0 ? (
-                  <div className="text-center py-12 text-txt-secondary">Aucun rendez-vous</div>
-                ) : appointments.map((apt) => (
-                  <div key={apt.id} className="bg-surface rounded-2xl p-6 border border-border">
-                    <div className="flex flex-col md:flex-row md:items-start justify-between gap-4">
-                      <div className="flex-1 space-y-2">
-                        <div className="flex items-center gap-3">
-                          <User className="w-5 h-5 text-brand-red" />
-                          <span className="font-semibold text-txt-primary">{apt.name}</span>
-                          <span className={`px-2 py-1 rounded-full text-xs font-medium ${apt.status === 'confirmed' ? 'bg-green-500/10 text-green-500' : 'bg-yellow-500/10 text-yellow-500'}`}>
-                            {apt.status === 'confirmed' ? 'Confirmé' : 'En attente'}
-                          </span>
-                        </div>
-                        <div className="text-sm text-txt-secondary space-y-1">
-                          <p><Mail className="w-4 h-4 inline mr-2" />{apt.email}</p>
-                          {apt.phone && <p><Phone className="w-4 h-4 inline mr-2" />{apt.phone}</p>}
-                          <p><Calendar className="w-4 h-4 inline mr-2" />{apt.preferred_date} à {apt.preferred_time}</p>
-                          <p><strong>Service:</strong> {apt.service_type}</p>
-                          {apt.message && <p><MessageSquare className="w-4 h-4 inline mr-2" />{apt.message}</p>}
-                        </div>
-                      </div>
-                      <div className="flex gap-2">
-                        {apt.status === 'pending' && (
-                          <button onClick={() => updateAppointmentStatus(apt.id, 'confirmed')} className="flex items-center gap-1 px-3 py-2 bg-green-500/10 text-green-500 rounded-lg hover:bg-green-500/20">
-                            <CheckCircle className="w-4 h-4" />
-                          </button>
-                        )}
-                        {apt.status === 'confirmed' && (
-                          <button onClick={() => updateAppointmentStatus(apt.id, 'pending')} className="flex items-center gap-1 px-3 py-2 bg-yellow-500/10 text-yellow-500 rounded-lg hover:bg-yellow-500/20">
-                            <Clock className="w-4 h-4" />
-                          </button>
-                        )}
-                        <button onClick={() => deleteAppointment(apt.id)} className="px-3 py-2 bg-red-500/10 text-red-500 rounded-lg hover:bg-red-500/20">
-                          <Trash2 className="w-4 h-4" />
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                ))}
+                <h2 className="text-lg font-semibold text-txt-primary mb-4">Rendez-vous en attente de validation</h2>
+                {pendingAppointments.length === 0 ? (
+                  <div className="text-center py-12 text-txt-secondary">Aucun rendez-vous en attente</div>
+                ) : pendingAppointments.map((apt) => renderAppointmentCard(apt, true))}
+              </div>
+            )}
+
+            {/* History Tab */}
+            {activeTab === 'history' && (
+              <div className="space-y-4">
+                <h2 className="text-lg font-semibold text-txt-primary mb-4">Historique des rendez-vous</h2>
+                {historyAppointments.length === 0 ? (
+                  <div className="text-center py-12 text-txt-secondary">Aucun historique</div>
+                ) : historyAppointments.map((apt) => renderAppointmentCard(apt, false))}
               </div>
             )}
 
@@ -621,6 +750,56 @@ export default function Admin() {
           </>
         )}
       </div>
+
+      {/* Proposal Modal */}
+      {proposalModal.open && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <div className="bg-surface rounded-2xl p-6 w-full max-w-md border border-border">
+            <h3 className="text-lg font-semibold text-txt-primary mb-4">Proposer une autre date</h3>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-txt-primary mb-2">Nouvelle date</label>
+                <input
+                  type="date"
+                  value={proposalForm.date}
+                  onChange={(e) => setProposalForm({ ...proposalForm, date: e.target.value })}
+                  min={new Date().toISOString().split('T')[0]}
+                  className="w-full px-4 py-3 bg-background border border-border rounded-lg text-txt-primary"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-txt-primary mb-2">Nouveau créneau</label>
+                <select
+                  value={proposalForm.time}
+                  onChange={(e) => setProposalForm({ ...proposalForm, time: e.target.value })}
+                  className="w-full px-4 py-3 bg-background border border-border rounded-lg text-txt-primary"
+                >
+                  <option value="">Sélectionnez un créneau</option>
+                  {timeSlots.map((time) => (
+                    <option key={time} value={time}>{time}</option>
+                  ))}
+                </select>
+              </div>
+              <div className="flex gap-3 pt-4">
+                <button
+                  onClick={handlePropose}
+                  disabled={processingAction !== null}
+                  className="flex-1 py-3 bg-brand-red text-primary-foreground rounded-lg font-semibold hover:bg-brand-red/90 disabled:opacity-50 flex items-center justify-center gap-2"
+                >
+                  {processingAction ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
+                  Envoyer la proposition
+                </button>
+                <button
+                  onClick={() => { setProposalModal({ open: false, appointmentId: null }); setProposalForm({ date: '', time: '' }); }}
+                  className="px-6 py-3 bg-muted text-txt-primary rounded-lg"
+                >
+                  Annuler
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

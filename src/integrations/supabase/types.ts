@@ -16,42 +16,60 @@ export type Database = {
     Tables: {
       appointments: {
         Row: {
+          country_code: string | null
           created_at: string
           email: string
           id: string
           message: string | null
           name: string
           phone: string | null
+          phone_local: string | null
           preferred_date: string | null
           preferred_time: string | null
+          proposal_token: string | null
+          proposed_date: string | null
+          proposed_time: string | null
           service_type: string
           status: string
+          status_enum: Database["public"]["Enums"]["appointment_status"] | null
           updated_at: string
         }
         Insert: {
+          country_code?: string | null
           created_at?: string
           email: string
           id?: string
           message?: string | null
           name: string
           phone?: string | null
+          phone_local?: string | null
           preferred_date?: string | null
           preferred_time?: string | null
+          proposal_token?: string | null
+          proposed_date?: string | null
+          proposed_time?: string | null
           service_type: string
           status?: string
+          status_enum?: Database["public"]["Enums"]["appointment_status"] | null
           updated_at?: string
         }
         Update: {
+          country_code?: string | null
           created_at?: string
           email?: string
           id?: string
           message?: string | null
           name?: string
           phone?: string | null
+          phone_local?: string | null
           preferred_date?: string | null
           preferred_time?: string | null
+          proposal_token?: string | null
+          proposed_date?: string | null
+          proposed_time?: string | null
           service_type?: string
           status?: string
+          status_enum?: Database["public"]["Enums"]["appointment_status"] | null
           updated_at?: string
         }
         Relationships: []
@@ -329,6 +347,12 @@ export type Database = {
     }
     Enums: {
       app_role: "admin" | "user"
+      appointment_status:
+        | "EN_ATTENTE"
+        | "VALIDE"
+        | "REFUSE"
+        | "PROPOSITION_ENVOYEE"
+        | "PROPOSITION_ACCEPTEE"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -457,6 +481,13 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "user"],
+      appointment_status: [
+        "EN_ATTENTE",
+        "VALIDE",
+        "REFUSE",
+        "PROPOSITION_ENVOYEE",
+        "PROPOSITION_ACCEPTEE",
+      ],
     },
   },
 } as const

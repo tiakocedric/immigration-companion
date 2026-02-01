@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { Calendar, CheckCircle, Clock, ArrowRight, Shield } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { toast } from 'sonner';
-import { supabase } from '@/integrations/supabase/client';
+import { createAppointment } from '@/lib/appointmentService';
+import PhoneInput from '@/components/PhoneInput';
 
 interface AppointmentFormProps {
   language: 'fr' | 'en';
@@ -19,7 +20,8 @@ export default function AppointmentForm({ language }: AppointmentFormProps) {
   const [formData, setFormData] = useState({
     full_name: '',
     email: '',
-    phone: '',
+    country_code: '+1',
+    phone_local: '',
     service_type: '',
     preferred_date: '',
     preferred_time: '',
@@ -125,17 +127,18 @@ export default function AppointmentForm({ language }: AppointmentFormProps) {
     e.preventDefault();
     setIsSubmitting(true);
     
-    const { error } = await supabase.from('appointments').insert({
+    const result = await createAppointment({
       name: formData.full_name,
       email: formData.email,
-      phone: formData.phone,
+      country_code: formData.country_code,
+      phone_local: formData.phone_local,
       service_type: formData.service_type,
       preferred_date: formData.preferred_date,
       preferred_time: formData.preferred_time,
       message: formData.message,
     });
 
-    if (error) {
+    if (!result.success) {
       toast.error(content[language].error);
     } else {
       setIsSuccess(true);
@@ -143,7 +146,8 @@ export default function AppointmentForm({ language }: AppointmentFormProps) {
       setFormData({
         full_name: '',
         email: '',
-        phone: '',
+        country_code: '+1',
+        phone_local: '',
         service_type: '',
         preferred_date: '',
         preferred_time: '',
@@ -292,13 +296,12 @@ export default function AppointmentForm({ language }: AppointmentFormProps) {
                       <label className="block text-sm font-medium text-txt-primary mb-2">
                         {content[language].phone} <span className="text-primary">*</span>
                       </label>
-                      <input
-                        type="tel"
-                        name="phone"
-                        value={formData.phone}
-                        onChange={handleChange}
+                      <PhoneInput
+                        countryCode={formData.country_code}
+                        phoneNumber={formData.phone_local}
+                        onCountryCodeChange={(code) => setFormData({ ...formData, country_code: code })}
+                        onPhoneNumberChange={(phone) => setFormData({ ...formData, phone_local: phone })}
                         required
-                        className={inputClasses}
                       />
                     </div>
                     <div>
