@@ -17,7 +17,7 @@ const Index = () => {
   const [language, setLanguage] = useState<'fr' | 'en'>('fr');
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
       <Navigation language={language} setLanguage={setLanguage} />
       <Hero language={language} />
       <LegalCompliance language={language} />

@@ -61,7 +61,7 @@ export default function Hero({ language }: HeroProps) {
   };
 
   return (
-    <section id="home" className="relative min-h-screen flex items-center pt-16 sm:pt-20 pb-8 sm:pb-16 overflow-hidden">
+    <section id="home" className="relative min-h-screen flex items-center pt-16 sm:pt-20 pb-8 sm:pb-16 overflow-hidden overflow-x-hidden">
       {/* Background decorations */}
       <div className="absolute inset-0 bg-hero-gradient" />
       <div className="absolute top-1/4 right-0 w-[300px] sm:w-[400px] lg:w-[600px] h-[300px] sm:h-[400px] lg:h-[600px] bg-primary/5 rounded-full blur-3xl" />
@@ -189,8 +189,8 @@ export default function Hero({ language }: HeroProps) {
             </div>
 
             {/* Decorative elements */}
-            <div className="absolute -top-4 -right-4 w-16 sm:w-24 h-16 sm:h-24 bg-primary/10 rounded-full blur-2xl" />
-            <div className="absolute -bottom-4 -left-4 w-20 sm:w-32 h-20 sm:h-32 bg-accent/10 rounded-full blur-2xl" />
+            <div className="absolute -top-4 right-0 w-16 sm:w-24 h-16 sm:h-24 bg-primary/10 rounded-full blur-2xl" />
+            <div className="absolute -bottom-4 left-0 w-20 sm:w-32 h-20 sm:h-32 bg-accent/10 rounded-full blur-2xl" />
           </motion.div>
         </div>
       </div>
