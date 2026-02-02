@@ -164,20 +164,22 @@ export default function AppointmentForm({ language }: AppointmentFormProps) {
   };
 
   const inputClasses = `w-full px-3 sm:px-4 py-2.5 sm:py-3 
+    text-sm sm:text-base
     bg-background border border-border rounded-lg 
-    text-txt-primary placeholder:text-muted-foreground 
-    focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary/50 
-    transition-all text-sm sm:text-base`;
+    text-txt-primary placeholder:text-muted-foreground
+    focus:outline-none focus:ring-2 focus:ring-primary/40
+    transition-all`;
   
   const selectClasses = `w-full px-3 sm:px-4 py-2.5 sm:py-3 
+    text-sm sm:text-base
     bg-background border border-border rounded-lg 
     text-txt-primary focus:outline-none focus:ring-2 
     focus:ring-primary/40 focus:border-primary/50 
-    transition-all appearance-none cursor-pointer text-sm sm:text-base`;
+    transition-all appearance-none cursor-pointer`;
 
   return (
-    <section id="appointment" className="py-16 sm:py-20 lg:py-24 bg-section-gradient">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="appointment" className="py-12 sm:py-16 lg:py-20 bg-section-gradient">
+      <div className="max-w-7xl 2xl:max-w-[1440px] mx-auto px-3 sm:px-6 lg:px-8">
         <motion.div 
           className="text-center mb-10 sm:mb-12 lg:mb-16"
           {...fadeInUp}
@@ -188,15 +190,15 @@ export default function AppointmentForm({ language }: AppointmentFormProps) {
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-heading font-semibold text-txt-primary mb-3 sm:mb-4">
             {content[language].title}
           </h2>
-          <p className="text-txt-secondary text-sm sm:text-base lg:text-lg max-w-2xl mx-auto px-4">
+          <p className="text-txt-secondary text-sm sm:text-base lg:text-lg max-w-xl lg:max-w-2xl mx-auto px-2">
             {content[language].subtitle}
           </p>
         </motion.div>
 
-        <div className="grid lg:grid-cols-5 gap-12">
+        <div className="grid lg:grid-cols-5 gap-8 lg:gap-12">
           {/* Info Column */}
           <motion.div 
-            className="lg:col-span-2 space-y-6"
+            className="lg:col-span-2 space-y-4 sm:space-y-6 order-2 lg:order-1"
             {...fadeInUp}
           >
             {/* Features */}
@@ -252,12 +254,14 @@ export default function AppointmentForm({ language }: AppointmentFormProps) {
 
           {/* Form Column */}
           <motion.div 
-            className="lg:col-span-3"
-            {...fadeInUp}
+            className="lg:col-span-3 order-1 lg:order-2"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
             {isSuccess ? (
-              <div className="bg-surface rounded-2xl p-12 border border-primary/20 text-center h-full flex flex-col items-center justify-center min-h-[500px]">
+              <div className="bg-surface rounded-2xl p-6 sm:p-10 lg:p-12 border border-primary/20 text-center h-full flex flex-col items-center justify-center min-h-[380px] sm:min-h-[500px]">
                 <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-6">
                   <CheckCircle className="w-8 h-8 text-primary" />
                 </div>
@@ -267,10 +271,10 @@ export default function AppointmentForm({ language }: AppointmentFormProps) {
                 <p className="text-txt-secondary">{content[language].successSubtext}</p>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="bg-surface rounded-2xl p-8 border border-border">
-                <div className="space-y-5">
+              <form onSubmit={handleSubmit} className="bg-surface rounded-2xl p-5 sm:p-8 lg:p-10 border border-border">
+                <div className="space-y-4 sm:space-y-5">
                   {/* Row 1: Name & Email */}
-                  <div className="grid sm:grid-cols-2 gap-5">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
                     <div>
                       <label className="block text-sm font-medium text-txt-primary mb-2">
                         {content[language].name} <span className="text-primary">*</span>
@@ -300,7 +304,7 @@ export default function AppointmentForm({ language }: AppointmentFormProps) {
                   </div>
 
                   {/* Row 2: Phone & Service */}
-                  <div className="grid sm:grid-cols-2 gap-5">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
                     <div>
                       <label className="block text-sm font-medium text-txt-primary mb-2">
                         {content[language].phone} <span className="text-primary">*</span>
@@ -333,7 +337,7 @@ export default function AppointmentForm({ language }: AppointmentFormProps) {
                   </div>
 
                   {/* Row 3: Date & Time */}
-                  <div className="grid sm:grid-cols-2 gap-5">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
                     <div>
                       <label className="block text-sm font-medium text-txt-primary mb-2">
                         {content[language].date} <span className="text-primary">*</span>
