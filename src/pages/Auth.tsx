@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
+import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { Loader2, Mail, Lock, User } from 'lucide-react';
 
 export default function Auth() {
   const [isLogin, setIsLogin] = useState(true);
+  const [isForgotPassword, setIsForgotPassword] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [fullName, setFullName] = useState('');
@@ -24,7 +26,17 @@ export default function Auth() {
     setIsLoading(true);
 
     try {
-      if (isLogin) {
+      if (isForgotPassword) {
+        const { error } = await supabase.auth.resetPasswordForEmail(email, {
+          redirectTo: `${window.location.origin}/reset-password`,
+        });
+        if (error) {
+          toast.error(error.message);
+        } else {
+          toast.success('Un email de réinitialisation a été envoyé à votre adresse');
+          setIsForgotPassword(false);
+        }
+      } else if (isLogin) {
         const { error } = await signIn(email, password);
         if (error) {
           if (error.message.includes('Invalid login credentials')) {
@@ -64,13 +76,13 @@ export default function Auth() {
             MIMB Immigration
           </h1>
           <p className="text-txt-secondary">
-            {isLogin ? 'Connexion administrateur' : 'Créer un compte'}
+            {isForgotPassword ? 'Réinitialiser votre mot de passe' : isLogin ? 'Connexion administrateur' : 'Créer un compte'}
           </p>
         </div>
 
         <div className="bg-surface rounded-3xl p-8 border border-border">
           <form onSubmit={handleSubmit} className="space-y-5">
-            {!isLogin && (
+            {!isLogin && !isForgotPassword && (
               <div>
                 <label className="block text-sm font-medium text-txt-primary mb-2">
                   Nom complet
@@ -106,23 +118,37 @@ export default function Auth() {
               </div>
             </div>
 
-            <div>
-              <label className="block text-sm font-medium text-txt-primary mb-2">
-                Mot de passe
-              </label>
-              <div className="relative">
-                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-txt-secondary" />
-                <input
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                  minLength={6}
-                  className="w-full pl-12 pr-4 py-3 bg-background border border-border rounded-xl text-txt-primary placeholder:text-txt-secondary/50 focus:outline-none focus:ring-2 focus:ring-brand-red/50"
-                  placeholder="••••••••"
-                />
+            {!isForgotPassword && (
+              <div>
+                <label className="block text-sm font-medium text-txt-primary mb-2">
+                  Mot de passe
+                </label>
+                <div className="relative">
+                  <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-txt-secondary" />
+                  <input
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                    minLength={6}
+                    className="w-full pl-12 pr-4 py-3 bg-background border border-border rounded-xl text-txt-primary placeholder:text-txt-secondary/50 focus:outline-none focus:ring-2 focus:ring-brand-red/50"
+                    placeholder="••••••••"
+                  />
+                </div>
               </div>
-            </div>
+            )}
+
+            {isLogin && !isForgotPassword && (
+              <div className="text-right">
+                <button
+                  type="button"
+                  onClick={() => setIsForgotPassword(true)}
+                  className="text-brand-red hover:underline text-sm"
+                >
+                  Mot de passe oublié ?
+                </button>
+              </div>
+            )}
 
             <button
               type="submit"
@@ -135,18 +161,27 @@ export default function Auth() {
                   Chargement...
                 </>
               ) : (
-                isLogin ? 'Se connecter' : 'Créer un compte'
+                isForgotPassword ? 'Envoyer le lien de réinitialisation' : isLogin ? 'Se connecter' : 'Créer un compte'
               )}
             </button>
           </form>
 
-          <div className="mt-6 text-center">
-            <button
-              onClick={() => setIsLogin(!isLogin)}
-              className="text-brand-red hover:underline text-sm"
-            >
-              {isLogin ? "Pas de compte ? S'inscrire" : 'Déjà un compte ? Se connecter'}
-            </button>
+          <div className="mt-6 text-center space-y-2">
+            {isForgotPassword ? (
+              <button
+                onClick={() => setIsForgotPassword(false)}
+                className="text-brand-red hover:underline text-sm"
+              >
+                ← Retour à la connexion
+              </button>
+            ) : (
+              <button
+                onClick={() => setIsLogin(!isLogin)}
+                className="text-brand-red hover:underline text-sm"
+              >
+                {isLogin ? "Pas de compte ? S'inscrire" : 'Déjà un compte ? Se connecter'}
+              </button>
+            )}
           </div>
         </div>
 
