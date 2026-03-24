@@ -5,6 +5,7 @@ import LegalCompliance from '@/components/LegalCompliance';
 import About from '@/components/About';
 import Services from '@/components/Services';
 import Process from '@/components/Process';
+import Opportunities from '@/components/Opportunities';
 import Testimonials from '@/components/Testimonials';
 import TestimonialForm from '@/components/TestimonialForm';
 import FAQ from '@/components/FAQ';
