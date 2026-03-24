@@ -144,13 +144,14 @@ export default function Admin() {
 
   const fetchData = async () => {
     setLoadingData(true);
-    const [appointmentsRes, contactsRes, contentRes, servicesRes, testimonialsRes, faqRes] = await Promise.all([
+    const [appointmentsRes, contactsRes, contentRes, servicesRes, testimonialsRes, faqRes, blogRes] = await Promise.all([
       supabase.from('appointments').select('*').order('created_at', { ascending: false }),
       supabase.from('contact_submissions').select('*').order('created_at', { ascending: false }),
       supabase.from('site_content').select('*').order('key'),
       supabase.from('services').select('*').order('display_order'),
       supabase.from('testimonials').select('*').order('display_order'),
       supabase.from('faq').select('*').order('display_order'),
+      supabase.from('blog_posts').select('*').order('created_at', { ascending: false }),
     ]);
 
     if (appointmentsRes.data) {
@@ -164,6 +165,7 @@ export default function Admin() {
     if (servicesRes.data) setServices(servicesRes.data);
     if (testimonialsRes.data) setTestimonials(testimonialsRes.data);
     if (faqRes.data) setFaq(faqRes.data);
+    if (blogRes.data) setBlogPosts(blogRes.data as BlogPost[]);
     setLoadingData(false);
   };
 
