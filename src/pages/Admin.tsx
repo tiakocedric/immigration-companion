@@ -333,6 +333,41 @@ export default function Admin() {
     if (error) toast.error('Erreur'); else { toast.success('FAQ ajoutée'); fetchData(); }
   };
 
+  // Blog CRUD
+  const addBlogPost = async () => {
+    const { error } = await supabase.from('blog_posts').insert({
+      title_fr: 'Nouvel article',
+      title_en: 'New article',
+      excerpt_fr: 'Résumé ici...',
+      excerpt_en: 'Summary here...',
+      content_fr: 'Contenu de l\'article...',
+      content_en: 'Article content...',
+      category_fr: 'Actualités',
+      category_en: 'News',
+      image_url: '',
+      read_time: 5,
+      is_published: false,
+      is_featured: false,
+      display_order: blogPosts.length + 1,
+    });
+    if (error) toast.error('Erreur'); else { toast.success('Article ajouté'); fetchData(); }
+  };
+
+  const updateBlogPost = async (post: BlogPost) => {
+    const { error } = await supabase.from('blog_posts').update(post).eq('id', post.id);
+    if (error) toast.error('Erreur'); else { toast.success('Article mis à jour'); fetchData(); setEditingContent(null); }
+  };
+
+  const deleteBlogPost = async (id: string) => {
+    const { error } = await supabase.from('blog_posts').delete().eq('id', id);
+    if (error) toast.error('Erreur'); else { toast.success('Article supprimé'); fetchData(); }
+  };
+
+  const toggleBlogPublish = async (id: string, current: boolean) => {
+    const { error } = await supabase.from('blog_posts').update({ is_published: !current }).eq('id', id);
+    if (error) toast.error('Erreur'); else { toast.success(!current ? 'Article publié' : 'Article dépublié'); fetchData(); }
+  };
+
   const handleLogout = async () => {
     await signOut();
     navigate('/');
