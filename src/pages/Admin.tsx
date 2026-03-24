@@ -89,7 +89,24 @@ interface FAQ {
   is_active: boolean;
 }
 
-type Tab = 'appointments' | 'history' | 'contacts' | 'content' | 'services' | 'testimonials' | 'pending-testimonials' | 'faq' | 'photos';
+interface BlogPost {
+  id: string;
+  title_fr: string;
+  title_en: string;
+  excerpt_fr: string;
+  excerpt_en: string;
+  content_fr: string;
+  content_en: string;
+  category_fr: string;
+  category_en: string;
+  image_url: string;
+  read_time: number;
+  is_published: boolean;
+  is_featured: boolean;
+  display_order: number;
+}
+
+type Tab = 'appointments' | 'history' | 'contacts' | 'content' | 'services' | 'testimonials' | 'pending-testimonials' | 'faq' | 'photos' | 'blog';
 
 export default function Admin() {
   const { user, isAdmin, isLoading, signOut } = useAuth();
