@@ -25,6 +25,7 @@ const Index = () => {
       <About language={language} />
       <Services language={language} />
       <Process language={language} />
+      <Opportunities language={language} />
       <Testimonials language={language} />
       <TestimonialForm language={language} />
       <FAQ language={language} />
