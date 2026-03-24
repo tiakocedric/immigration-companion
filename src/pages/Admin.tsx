@@ -878,6 +878,102 @@ export default function Admin() {
                 {photos.length === 0 && <div className="text-center py-12 text-txt-secondary">Aucune photo</div>}
               </div>
             )}
+
+            {/* Blog Tab */}
+            {activeTab === 'blog' && (
+              <div className="space-y-4">
+                <button onClick={addBlogPost} className="w-full py-4 border-2 border-dashed border-border rounded-2xl text-txt-secondary hover:border-brand-red hover:text-brand-red transition-colors flex items-center justify-center gap-2">
+                  <Plus className="w-5 h-5" /> Ajouter un article
+                </button>
+                {blogPosts.length === 0 ? (
+                  <div className="text-center py-12 text-txt-secondary">Aucun article</div>
+                ) : blogPosts.map((post) => (
+                  <div key={post.id} className="bg-surface rounded-2xl p-6 border border-border">
+                    {editingContent === post.id ? (
+                      <div className="space-y-4">
+                        <div className="grid sm:grid-cols-2 gap-4">
+                          <div>
+                            <label className="text-sm text-txt-secondary">Titre FR</label>
+                            <input type="text" value={editForm.title_fr || ''} onChange={(e) => setEditForm({ ...editForm, title_fr: e.target.value })} className="w-full mt-1 px-4 py-2 bg-background border border-border rounded-xl text-txt-primary" />
+                          </div>
+                          <div>
+                            <label className="text-sm text-txt-secondary">Titre EN</label>
+                            <input type="text" value={editForm.title_en || ''} onChange={(e) => setEditForm({ ...editForm, title_en: e.target.value })} className="w-full mt-1 px-4 py-2 bg-background border border-border rounded-xl text-txt-primary" />
+                          </div>
+                        </div>
+                        <div className="grid sm:grid-cols-2 gap-4">
+                          <div>
+                            <label className="text-sm text-txt-secondary">Catégorie FR</label>
+                            <input type="text" value={editForm.category_fr || ''} onChange={(e) => setEditForm({ ...editForm, category_fr: e.target.value })} className="w-full mt-1 px-4 py-2 bg-background border border-border rounded-xl text-txt-primary" />
+                          </div>
+                          <div>
+                            <label className="text-sm text-txt-secondary">Catégorie EN</label>
+                            <input type="text" value={editForm.category_en || ''} onChange={(e) => setEditForm({ ...editForm, category_en: e.target.value })} className="w-full mt-1 px-4 py-2 bg-background border border-border rounded-xl text-txt-primary" />
+                          </div>
+                        </div>
+                        <div className="grid sm:grid-cols-2 gap-4">
+                          <div>
+                            <label className="text-sm text-txt-secondary">Image URL</label>
+                            <input type="text" value={editForm.image_url || ''} onChange={(e) => setEditForm({ ...editForm, image_url: e.target.value })} className="w-full mt-1 px-4 py-2 bg-background border border-border rounded-xl text-txt-primary" />
+                          </div>
+                          <div>
+                            <label className="text-sm text-txt-secondary">Temps de lecture (min)</label>
+                            <input type="number" value={editForm.read_time || 5} onChange={(e) => setEditForm({ ...editForm, read_time: parseInt(e.target.value) })} className="w-full mt-1 px-4 py-2 bg-background border border-border rounded-xl text-txt-primary" />
+                          </div>
+                        </div>
+                        <div>
+                          <label className="text-sm text-txt-secondary">Résumé FR</label>
+                          <textarea value={editForm.excerpt_fr || ''} onChange={(e) => setEditForm({ ...editForm, excerpt_fr: e.target.value })} className="w-full mt-1 px-4 py-3 bg-background border border-border rounded-xl text-txt-primary" rows={2} />
+                        </div>
+                        <div>
+                          <label className="text-sm text-txt-secondary">Résumé EN</label>
+                          <textarea value={editForm.excerpt_en || ''} onChange={(e) => setEditForm({ ...editForm, excerpt_en: e.target.value })} className="w-full mt-1 px-4 py-3 bg-background border border-border rounded-xl text-txt-primary" rows={2} />
+                        </div>
+                        <div>
+                          <label className="text-sm text-txt-secondary">Contenu FR (Markdown)</label>
+                          <textarea value={editForm.content_fr || ''} onChange={(e) => setEditForm({ ...editForm, content_fr: e.target.value })} className="w-full mt-1 px-4 py-3 bg-background border border-border rounded-xl text-txt-primary font-mono text-sm" rows={8} />
+                        </div>
+                        <div>
+                          <label className="text-sm text-txt-secondary">Contenu EN (Markdown)</label>
+                          <textarea value={editForm.content_en || ''} onChange={(e) => setEditForm({ ...editForm, content_en: e.target.value })} className="w-full mt-1 px-4 py-3 bg-background border border-border rounded-xl text-txt-primary font-mono text-sm" rows={8} />
+                        </div>
+                        <div className="flex items-center gap-4">
+                          <label className="flex items-center gap-2 text-sm text-txt-secondary">
+                            <input type="checkbox" checked={editForm.is_featured || false} onChange={(e) => setEditForm({ ...editForm, is_featured: e.target.checked })} />
+                            Article vedette
+                          </label>
+                        </div>
+                        <div className="flex gap-2">
+                          <button onClick={() => updateBlogPost({ ...post, ...editForm })} className="px-4 py-2 bg-brand-red text-primary-foreground rounded-lg flex items-center gap-2"><Save className="w-4 h-4" /> Sauvegarder</button>
+                          <button onClick={() => setEditingContent(null)} className="px-4 py-2 bg-muted text-txt-primary rounded-lg"><X className="w-4 h-4" /></button>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="flex justify-between items-start">
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2 mb-1 flex-wrap">
+                            <p className="font-semibold text-txt-primary">{post.title_fr}</p>
+                            <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${post.is_published ? 'bg-green-500/10 text-green-500' : 'bg-yellow-500/10 text-yellow-600'}`}>
+                              {post.is_published ? 'Publié' : 'Brouillon'}
+                            </span>
+                            {post.is_featured && <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-accent/10 text-accent">⭐ Vedette</span>}
+                          </div>
+                          <p className="text-sm text-txt-secondary truncate">{post.excerpt_fr}</p>
+                          <p className="text-xs text-txt-secondary mt-1">{post.category_fr} · {post.read_time} min</p>
+                        </div>
+                        <div className="flex gap-2 flex-shrink-0 ml-4">
+                          <button onClick={() => toggleBlogPublish(post.id, post.is_published)} className={`px-3 py-2 rounded-lg text-xs font-medium ${post.is_published ? 'bg-yellow-500/10 text-yellow-600 hover:bg-yellow-500/20' : 'bg-green-500/10 text-green-500 hover:bg-green-500/20'}`}>
+                            {post.is_published ? 'Dépublier' : 'Publier'}
+                          </button>
+                          <button onClick={() => { setEditingContent(post.id); setEditForm(post); }} className="p-2 text-txt-secondary hover:text-brand-red"><Edit className="w-5 h-5" /></button>
+                          <button onClick={() => deleteBlogPost(post.id)} className="p-2 text-txt-secondary hover:text-red-500"><Trash2 className="w-5 h-5" /></button>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
           </>
         )}
       </div>
