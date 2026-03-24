@@ -439,6 +439,7 @@ export default function Admin() {
     { id: 'testimonials', label: 'Témoignages', icon: <Star className="w-5 h-5" /> },
     { id: 'faq', label: 'FAQ', icon: <HelpCircle className="w-5 h-5" /> },
     { id: 'photos', label: 'Photos', icon: <Image className="w-5 h-5" /> },
+    { id: 'blog', label: 'Blog', icon: <Newspaper className="w-5 h-5" />, count: blogPosts.length },
   ];
 
   const renderAppointmentCard = (apt: AppointmentData, showActions: boolean = true) => {
