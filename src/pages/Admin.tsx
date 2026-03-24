@@ -118,6 +118,7 @@ export default function Admin() {
   const [services, setServices] = useState<Service[]>([]);
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
   const [faq, setFaq] = useState<FAQ[]>([]);
+  const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
   const [loadingData, setLoadingData] = useState(true);
   const [uploading, setUploading] = useState(false);
   const [photos, setPhotos] = useState<{name: string, url: string}[]>([]);
