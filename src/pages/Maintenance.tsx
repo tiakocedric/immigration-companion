@@ -1,4 +1,4 @@
-import { Wrench, Clock, Mail, HelpCircle, Phone } from 'lucide-react';
+import { Wrench, Clock, Mail, HelpCircle, Phone, BellRing, CheckCircle2, Loader2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import {
@@ -7,6 +7,17 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { supabase } from '@/integrations/supabase/client';
+import { toast } from 'sonner';
+import { z } from 'zod';
+
+const emailSchema = z
+  .string()
+  .trim()
+  .email({ message: 'Adresse email invalide' })
+  .max(255, { message: 'Email trop long' });
 
 function formatRemaining(ms: number, lang: 'fr' | 'en' = 'fr') {
   if (ms <= 0) return lang === 'fr' ? 'Bientôt de retour' : 'Back soon';
