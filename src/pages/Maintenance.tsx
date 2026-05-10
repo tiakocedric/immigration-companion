@@ -56,7 +56,7 @@ export default function MaintenancePage() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="max-w-lg w-full text-center"
+        className="max-w-2xl w-full text-center py-12"
       >
         <motion.div
           className="mx-auto mb-8 w-24 h-24 rounded-full bg-primary/10 flex items-center justify-center"
