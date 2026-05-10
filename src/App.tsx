@@ -10,7 +10,11 @@ import Auth from "./pages/Auth";
 import Admin from "./pages/Admin";
 import Blog from "./pages/Blog";
 import ResetPassword from "./pages/ResetPassword";
+import MaintenancePage from "./pages/Maintenance";
 import NotFound from "./pages/NotFound";
+
+// Mettre à true pour activer le mode maintenance
+const MAINTENANCE_MODE = true;
 
 const queryClient = new QueryClient();
 
