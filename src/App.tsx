@@ -13,8 +13,9 @@ import ResetPassword from "./pages/ResetPassword";
 import MaintenancePage from "./pages/Maintenance";
 import NotFound from "./pages/NotFound";
 
-// Mettre à true pour activer le mode maintenance
-const MAINTENANCE_MODE = true;
+// Activable via la variable d'environnement VITE_MAINTENANCE_MODE ("true"/"false")
+const MAINTENANCE_MODE =
+  (import.meta.env.VITE_MAINTENANCE_MODE ?? 'true').toString().toLowerCase() === 'true';
 
 const queryClient = new QueryClient();
 
