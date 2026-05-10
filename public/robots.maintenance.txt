@@ -1,0 +1,13 @@
+# =====================================================================
+# robots.txt à utiliser PENDANT la maintenance
+# Pour l'activer : renommez ce fichier en robots.txt (et sauvegardez
+# l'actuel sous le nom robots.production.txt).
+# =====================================================================
+
+User-agent: *
+Disallow: /
+
+# Le site est temporairement en maintenance.
+# Aucune page ne doit être indexée pendant cette période.
+
+Sitemap: https://www.mimbimmigration.com/sitemap.xml

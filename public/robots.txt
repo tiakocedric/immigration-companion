@@ -1,3 +1,23 @@
+# =====================================================================
+# MIMBIMMIGRATION CONSULTANCY INC. — robots.txt
+# =====================================================================
+#
+# 🛠 MODE MAINTENANCE :
+# Pendant une maintenance, décommentez le bloc "Disallow: /" ci-dessous
+# et commentez le bloc "Allow: /" pour bloquer toute indexation.
+# La page de maintenance ajoute aussi <meta name="robots" content="noindex">
+# côté client en complément.
+#
+# ✅ MODE PRODUCTION (par défaut) :
+# Tout est autorisé.
+# =====================================================================
+
+# ---------- MODE MAINTENANCE (décommenter pour activer) ----------
+# User-agent: *
+# Disallow: /
+# -----------------------------------------------------------------
+
+# ---------- MODE PRODUCTION ----------
 User-agent: Googlebot
 Allow: /
 
@@ -12,3 +32,7 @@ Allow: /
 
 User-agent: *
 Allow: /
+# -------------------------------------
+
+# Sitemap
+Sitemap: https://www.mimbimmigration.com/sitemap.xml

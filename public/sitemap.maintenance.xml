@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Sitemap réduit — utilisé pendant la maintenance.
+  Pour l'activer, remplacez sitemap.xml par le contenu de ce fichier.
+  Seule la page d'accueil (qui sert la page de maintenance) est listée.
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://www.mimbimmigration.com/</loc>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+</urlset>

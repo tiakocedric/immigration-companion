@@ -59,6 +59,46 @@ export default function MaintenancePage() {
     return () => clearInterval(interval);
   }, [endTime]);
 
+  // SEO: empêcher l'indexation pendant la maintenance
+  useEffect(() => {
+    const previousTitle = document.title;
+    document.title = 'Site en maintenance — MIMBIMMIGRATION CONSULTANCY INC.';
+
+    let robotsMeta = document.querySelector('meta[name="robots"]') as HTMLMetaElement | null;
+    const hadRobotsMeta = !!robotsMeta;
+    const previousRobots = robotsMeta?.content;
+    if (!robotsMeta) {
+      robotsMeta = document.createElement('meta');
+      robotsMeta.name = 'robots';
+      document.head.appendChild(robotsMeta);
+    }
+    robotsMeta.content = 'noindex, nofollow, noarchive, nosnippet';
+
+    let googlebotMeta = document.querySelector('meta[name="googlebot"]') as HTMLMetaElement | null;
+    const hadGooglebotMeta = !!googlebotMeta;
+    if (!googlebotMeta) {
+      googlebotMeta = document.createElement('meta');
+      googlebotMeta.name = 'googlebot';
+      document.head.appendChild(googlebotMeta);
+    }
+    googlebotMeta.content = 'noindex, nofollow';
+
+    const canonical = document.querySelector('link[rel="canonical"]');
+    const canonicalParent = canonical?.parentElement;
+    canonical?.remove();
+
+    return () => {
+      document.title = previousTitle;
+      if (!hadRobotsMeta) {
+        robotsMeta?.remove();
+      } else if (robotsMeta && previousRobots !== undefined) {
+        robotsMeta.content = previousRobots;
+      }
+      if (!hadGooglebotMeta) googlebotMeta?.remove();
+      if (canonical && canonicalParent) canonicalParent.appendChild(canonical);
+    };
+  }, []);
+
   const remaining = endTime ? endTime - now : null;
 
   // Email subscription state
