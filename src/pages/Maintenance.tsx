@@ -1,6 +1,12 @@
-import { Wrench, Clock, Mail } from 'lucide-react';
+import { Wrench, Clock, Mail, HelpCircle, Phone } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
 
 function formatRemaining(ms: number, lang: 'fr' | 'en' = 'fr') {
   if (ms <= 0) return lang === 'fr' ? 'Bientôt de retour' : 'Back soon';
