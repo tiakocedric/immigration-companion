@@ -102,7 +102,7 @@ export default function MaintenancePage() {
           )}
         </div>
 
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
           <a
             href={`mailto:${contactEmail}`}
             className="inline-flex items-center gap-2 text-primary hover:text-primary/80 transition-colors"
@@ -110,6 +110,100 @@ export default function MaintenancePage() {
             <Mail className="w-4 h-4" />
             <span>{contactEmail}</span>
           </a>
+        </div>
+
+        {/* FAQ Section */}
+        <div className="text-left bg-card border border-border rounded-xl p-6 sm:p-8 mb-8">
+          <div className="flex items-center gap-3 mb-6 justify-center">
+            <HelpCircle className="w-6 h-6 text-primary" />
+            <h2 className="text-xl sm:text-2xl font-bold text-foreground">
+              Questions fréquentes
+            </h2>
+          </div>
+
+          <Accordion type="single" collapsible className="w-full">
+            <AccordionItem value="duree">
+              <AccordionTrigger className="text-left">
+                Combien de temps va durer la maintenance ?
+              </AccordionTrigger>
+              <AccordionContent className="text-muted-foreground">
+                {endTime
+                  ? `La réouverture est prévue le ${new Date(endTime).toLocaleString('fr-CA', { dateStyle: 'long', timeStyle: 'short' })}. Nous mettons tout en œuvre pour respecter ce délai.`
+                  : "Notre équipe technique travaille activement pour rétablir le service au plus vite. La durée estimée est de quelques heures seulement."}
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem value="contact">
+              <AccordionTrigger className="text-left">
+                Comment vous contacter pendant la maintenance ?
+              </AccordionTrigger>
+              <AccordionContent className="text-muted-foreground space-y-2">
+                <p>Vous pouvez nous joindre par les moyens suivants :</p>
+                <div className="flex items-center gap-2">
+                  <Mail className="w-4 h-4 text-primary shrink-0" />
+                  <a href={`mailto:${contactEmail}`} className="text-primary hover:underline break-all">
+                    {contactEmail}
+                  </a>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Phone className="w-4 h-4 text-primary shrink-0" />
+                  <a href="tel:+15145550123" className="text-primary hover:underline">
+                    +1 (514) 555-0123
+                  </a>
+                </div>
+                <p className="text-sm pt-2">Nous répondons généralement sous 24 heures ouvrables.</p>
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem value="rendez-vous">
+              <AccordionTrigger className="text-left">
+                Puis-je prendre un rendez-vous malgré la maintenance ?
+              </AccordionTrigger>
+              <AccordionContent className="text-muted-foreground">
+                Bien sûr ! Envoyez-nous un email avec vos disponibilités et le motif de votre demande.
+                Notre équipe vous proposera un créneau de consultation dans les meilleurs délais,
+                en personne ou en visioconférence.
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem value="services">
+              <AccordionTrigger className="text-left">
+                Quels services proposez-vous ?
+              </AccordionTrigger>
+              <AccordionContent className="text-muted-foreground space-y-2">
+                <p>Nous accompagnons nos clients sur l'ensemble des démarches d'immigration canadienne :</p>
+                <ul className="list-disc list-inside space-y-1 ml-2">
+                  <li>Résidence permanente (Entrée Express, PEQ, parrainage)</li>
+                  <li>Permis de travail et permis d'études</li>
+                  <li>Visas de visiteur et super visa</li>
+                  <li>Citoyenneté canadienne</li>
+                  <li>Évaluation de profil et conseils stratégiques</li>
+                </ul>
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem value="dossier">
+              <AccordionTrigger className="text-left">
+                Mon dossier en cours est-il impacté ?
+              </AccordionTrigger>
+              <AccordionContent className="text-muted-foreground">
+                Non, la maintenance concerne uniquement le site web. Tous les dossiers en cours
+                continuent d'être traités normalement par notre équipe. Vous serez contacté
+                directement par votre conseiller pour toute mise à jour.
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem value="securite">
+              <AccordionTrigger className="text-left">
+                Mes données personnelles sont-elles en sécurité ?
+              </AccordionTrigger>
+              <AccordionContent className="text-muted-foreground">
+                Absolument. Toutes vos données restent protégées et confidentielles. La maintenance
+                vise justement à améliorer la sécurité et la performance de notre plateforme,
+                conformément aux normes du CICC.
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
         </div>
 
         <p className="mt-8 text-xs text-muted-foreground">
