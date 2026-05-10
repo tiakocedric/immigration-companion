@@ -61,6 +61,44 @@ export default function MaintenancePage() {
 
   const remaining = endTime ? endTime - now : null;
 
+  // Email subscription state
+  const [email, setEmail] = useState('');
+  const [submitting, setSubmitting] = useState(false);
+  const [subscribed, setSubscribed] = useState(false);
+
+  const handleSubscribe = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const result = emailSchema.safeParse(email);
+    if (!result.success) {
+      toast.error(result.error.issues[0].message);
+      return;
+    }
+    setSubmitting(true);
+    try {
+      const { error } = await supabase
+        .from('maintenance_subscribers')
+        .insert({ email: result.data.toLowerCase() });
+
+      if (error) {
+        // Duplicate email = unique constraint violation
+        if (error.code === '23505') {
+          setSubscribed(true);
+          toast.success('Vous êtes déjà inscrit à la liste de notification.');
+        } else {
+          throw error;
+        }
+      } else {
+        setSubscribed(true);
+        toast.success('Inscription confirmée ! Vous serez prévenu dès le retour.');
+      }
+    } catch (err) {
+      console.error('Subscription error:', err);
+      toast.error("Une erreur est survenue. Merci de réessayer plus tard.");
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-background flex items-center justify-center px-4">
       <motion.div
