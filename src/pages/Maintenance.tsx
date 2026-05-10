@@ -1,4 +1,4 @@
-import { Wrench, Clock, Mail, HelpCircle, Phone } from 'lucide-react';
+import { Wrench, Clock, Mail, HelpCircle, Phone, BellRing, CheckCircle2, Loader2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import {
@@ -7,6 +7,17 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { supabase } from '@/integrations/supabase/client';
+import { toast } from 'sonner';
+import { z } from 'zod';
+
+const emailSchema = z
+  .string()
+  .trim()
+  .email({ message: 'Adresse email invalide' })
+  .max(255, { message: 'Email trop long' });
 
 function formatRemaining(ms: number, lang: 'fr' | 'en' = 'fr') {
   if (ms <= 0) return lang === 'fr' ? 'Bientôt de retour' : 'Back soon';
@@ -49,6 +60,44 @@ export default function MaintenancePage() {
   }, [endTime]);
 
   const remaining = endTime ? endTime - now : null;
+
+  // Email subscription state
+  const [email, setEmail] = useState('');
+  const [submitting, setSubmitting] = useState(false);
+  const [subscribed, setSubscribed] = useState(false);
+
+  const handleSubscribe = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const result = emailSchema.safeParse(email);
+    if (!result.success) {
+      toast.error(result.error.issues[0].message);
+      return;
+    }
+    setSubmitting(true);
+    try {
+      const { error } = await supabase
+        .from('maintenance_subscribers')
+        .insert({ email: result.data.toLowerCase() });
+
+      if (error) {
+        // Duplicate email = unique constraint violation
+        if (error.code === '23505') {
+          setSubscribed(true);
+          toast.success('Vous êtes déjà inscrit à la liste de notification.');
+        } else {
+          throw error;
+        }
+      } else {
+        setSubscribed(true);
+        toast.success('Inscription confirmée ! Vous serez prévenu dès le retour.');
+      }
+    } catch (err) {
+      console.error('Subscription error:', err);
+      toast.error("Une erreur est survenue. Merci de réessayer plus tard.");
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center px-4">
@@ -99,6 +148,56 @@ export default function MaintenancePage() {
               Merci de votre patience. Nous travaillons pour vous offrir une
               meilleure expérience.
             </p>
+          )}
+        </div>
+
+        {/* Email subscription */}
+        <div className="bg-gradient-to-br from-primary/10 via-primary/5 to-transparent border border-primary/20 rounded-xl p-6 sm:p-8 mb-8">
+          <div className="flex items-center gap-3 justify-center mb-3">
+            <BellRing className="w-6 h-6 text-primary" />
+            <h2 className="text-lg sm:text-xl font-semibold text-foreground">
+              Soyez prévenu du retour
+            </h2>
+          </div>
+          <p className="text-sm text-muted-foreground mb-5 max-w-md mx-auto">
+            Laissez votre email et nous vous enverrons un message dès que le site sera de nouveau accessible.
+          </p>
+
+          {subscribed ? (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="flex items-center justify-center gap-2 text-primary font-medium py-3"
+            >
+              <CheckCircle2 className="w-5 h-5" />
+              <span>Inscription confirmée — à très bientôt !</span>
+            </motion.div>
+          ) : (
+            <form
+              onSubmit={handleSubscribe}
+              className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto"
+            >
+              <Input
+                type="email"
+                placeholder="votre@email.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                disabled={submitting}
+                required
+                className="flex-1"
+                aria-label="Adresse email"
+              />
+              <Button type="submit" disabled={submitting} className="sm:w-auto">
+                {submitting ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    Envoi...
+                  </>
+                ) : (
+                  'Me prévenir'
+                )}
+              </Button>
+            </form>
           )}
         </div>
 
