@@ -151,7 +151,55 @@ export default function MaintenancePage() {
           )}
         </div>
 
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
+        {/* Email subscription */}
+        <div className="bg-gradient-to-br from-primary/10 via-primary/5 to-transparent border border-primary/20 rounded-xl p-6 sm:p-8 mb-8">
+          <div className="flex items-center gap-3 justify-center mb-3">
+            <BellRing className="w-6 h-6 text-primary" />
+            <h2 className="text-lg sm:text-xl font-semibold text-foreground">
+              Soyez prévenu du retour
+            </h2>
+          </div>
+          <p className="text-sm text-muted-foreground mb-5 max-w-md mx-auto">
+            Laissez votre email et nous vous enverrons un message dès que le site sera de nouveau accessible.
+          </p>
+
+          {subscribed ? (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="flex items-center justify-center gap-2 text-primary font-medium py-3"
+            >
+              <CheckCircle2 className="w-5 h-5" />
+              <span>Inscription confirmée — à très bientôt !</span>
+            </motion.div>
+          ) : (
+            <form
+              onSubmit={handleSubscribe}
+              className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto"
+            >
+              <Input
+                type="email"
+                placeholder="votre@email.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                disabled={submitting}
+                required
+                className="flex-1"
+                aria-label="Adresse email"
+              />
+              <Button type="submit" disabled={submitting} className="sm:w-auto">
+                {submitting ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    Envoi...
+                  </>
+                ) : (
+                  'Me prévenir'
+                )}
+              </Button>
+            </form>
+          )}
+        </div>
           <a
             href={`mailto:${contactEmail}`}
             className="inline-flex items-center gap-2 text-primary hover:text-primary/80 transition-colors"
